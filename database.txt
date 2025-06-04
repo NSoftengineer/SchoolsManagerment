@@ -1,0 +1,9 @@
+Setting
+1.Floorstudy
+2.Classroom
+3.Typeincome
+4.Typeexpenses
+5.Itemforregister
+6.Typeteacher
+7.Yearstudy
+8.coststudy
