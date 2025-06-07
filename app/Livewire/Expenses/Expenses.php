@@ -15,23 +15,31 @@ class Expenses extends Component
     public $isId;
     public $name;
     public $description;
+    public $date_at;
     public $typeexpenses_id;
     public $amount;
     public $price;
     public $user_id;
     public $status = 1;
     public $dateSearch;
+    public $datesearchdata;
 
     public $title_expenses;
     protected $listeners = ['Expenses' => 'DeleteExpenses'];
     public function mount()
     {
-        $this->type =  request()->type ?? '0';
+        // $this->type =  request()->type ?? '0';
         $date = Carbon::now()->format('Y-m-d');
         $this->dateSearch = $date;
+        // $date_str = Carbon::createFromFormat('Y-m-d', $this->dateSearch)->startOfDay();
+        // $date_end = Carbon::createFromFormat('Y-m-d', $this->dateSearch)->endOfDay();
+        // $this->ExpensesData = ModelExpenses::where('typeexpenses_id', $this->type)
+        //     ->whereBetween('created_at', [$date_str, $date_end])
+        //     ->get();
     }
     public function render()
     {
+        $this->type =  request()->type ?? '0';
 
         $this->user_id = Auth::id();
         if ($this->type > 0) {
@@ -40,18 +48,33 @@ class Expenses extends Component
             $this->typeexpenses_id = $this->type;
         }
 
-        // if (!$this->date) {
+        if ($this->datesearchdata != "") {
+            $this->dateSearch = $this->datesearchdata;
+        }
 
-        // } else {
-        //     $this->date = Carbon::parse($this->date)->format('Y-m-d');
-        // }
-        $this->ExpensesData = ModelExpenses::where('typeexpenses_id', $this->type)->whereDate('created_at', $this->dateSearch)->get();
+
+        $date_str = Carbon::createFromFormat('Y-m-d', $this->dateSearch)->startOfDay();
+        $date_end = Carbon::createFromFormat('Y-m-d', $this->dateSearch)->endOfDay();
+
+        $this->ExpensesData = ModelExpenses::where('typeexpenses_id', $this->typeexpenses_id)
+            ->whereBetween('created_at', [$date_str, $date_end])
+            ->get();
+
+
         return view('livewire.expenses.expenses');
     }
 
     public function search()
     {
-        $this->js("alert('" . $this->dateSearch . "')");
+        // $this->js("alert('" . Carbon::createFromFormat('Y-m-d', $this->dateSearch)->endOfDay() . "')");
+        // $this->dates = Carbon::createFromFormat('Y-m-d', $this->dateSearch)->endOfDay();
+        // $this->ExpensesData = [];
+        // $this->dateSearch = "";
+        $date_str = Carbon::createFromFormat('Y-m-d', $this->dateSearch)->startOfDay();
+        $date_end = Carbon::createFromFormat('Y-m-d', $this->dateSearch)->endOfDay();
+        $this->ExpensesData = ModelExpenses::where('typeexpenses_id', $this->type)
+            ->whereBetween('created_at', [$date_str, $date_end])
+            ->get();
         // $date = Carbon::now()->format('Y-m-d');
         // if (!$this->date) {
         //     $this->date = $date;
@@ -91,7 +114,8 @@ class Expenses extends Component
         $validate = $this->validate([
             'name' => ['required', 'string'],
             'description' => ['required', 'string'],
-            'typeexpenses_id' => ['required', 'integer'],
+            // 'typeexpenses_id' => ['required', 'integer'],
+            'date_at' => ['nullable', 'date'],
             'status' => ['required', 'integer'],
             'amount' => ['required', 'integer'],
             'price' => ['required', 'numeric'],
@@ -100,7 +124,7 @@ class Expenses extends Component
 
         if ($this->isId != false) {
             $expenses = ModelExpenses::find($this->isId);
-            $expense = $expenses->update($validate);
+            $expense = $expenses->update(array_merge($validate, ["typeexpenses_id" => $this->typeexpenses_id]));
             if ($expense) {
                 $this->js('alertSuccess()');
                 $this->isId = false;
@@ -110,12 +134,18 @@ class Expenses extends Component
                 $this->amount = '';
                 $this->price = '';
                 $this->user_id = Auth::id();
+                $date_str = Carbon::createFromFormat('Y-m-d', $this->dateSearch)->startOfDay();
+                $date_end = Carbon::createFromFormat('Y-m-d', $this->dateSearch)->endOfDay();
+                $this->ExpensesData = ModelExpenses::where('typeexpenses_id', $this->type)
+                    ->whereBetween('created_at', [$date_str, $date_end])
+                    ->get();
+
                 $this->onModalClose();
             } else {
                 $this->js('alertError()');
             }
         } else {
-            $expense = ModelExpenses::create($validate);
+            $expense = ModelExpenses::create(array_merge($validate, ["typeexpenses_id" => $this->typeexpenses_id]));
             if ($expense) {
                 $this->js('alertSuccess()');
                 $this->name = '';
@@ -124,6 +154,12 @@ class Expenses extends Component
                 $this->amount = '';
                 $this->price = '';
                 $this->user_id = Auth::id();
+
+                $date_str = Carbon::createFromFormat('Y-m-d', $this->dateSearch)->startOfDay();
+                $date_end = Carbon::createFromFormat('Y-m-d', $this->dateSearch)->endOfDay();
+                $this->ExpensesData = ModelExpenses::where('typeexpenses_id', $this->type)
+                    ->whereBetween('created_at', [$date_str, $date_end])
+                    ->get();
             } else {
                 $this->js('alertError()');
             }

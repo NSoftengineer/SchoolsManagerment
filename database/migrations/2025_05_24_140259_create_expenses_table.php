@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->integer('typeexpenses_id');
+            $table->date('date_at');
             $table->float('amount', 10, 2)->default(0.00);
             $table->float('price', 10, 2)->default(0.00);
             $table->integer('status')->default(1);

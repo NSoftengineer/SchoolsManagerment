@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class StudentClass extends Model
+class TeachingHistory extends Model
 {
     use SoftDeletes;
     protected $fillable = [
-        'student_id',
-        'yearstudies_id',
-        'classrooms_id',
-        'status',
+        'teaching_room',
+        'teaching',
+        'teaching_years',
+        'teaching_at',
     ];
 }
