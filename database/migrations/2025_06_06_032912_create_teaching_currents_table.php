@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('teaching_currents', function (Blueprint $table) {
             $table->id();
             $table->string('position');
+            $table->string('salary');
             $table->date('date_start');
             $table->date('date_end');
             $table->softDeletes();

@@ -82,16 +82,16 @@
     <div id="default-styled-tab-content">
         <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="target-tab-register" role="tabpanel"
             aria-labelledby="profile-tab">
-            @livewire('income.Components.register_student')
+            @livewire('income.components.register_student')
         </div>
 
         <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="target-overdue-student" role="tabpanel"
             aria-labelledby="dashboard-tab">
-            @livewire('income.Components.overdue_student')
+            @livewire('income.components.overdue_student')
         </div>
         <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="target-payment-student" role="tabpanel"
             aria-labelledby="settings-tab">
-            @livewire('income.Components.payment_student')
+            @livewire('income.components.payment_student')
         </div>
         {{-- <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="styled-contacts" role="tabpanel"
             aria-labelledby="contacts-tab">

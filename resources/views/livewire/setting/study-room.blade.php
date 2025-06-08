@@ -57,6 +57,9 @@
                                 ລຳດັບ
                             </th>
                             <th scope="col" class="text-base px-6 py-3">
+                                ຊັ້ນຮຽນ
+                            </th>
+                            <th scope="col" class="text-base px-6 py-3">
                                 ຫ້ອງຮຽນ
                             </th>
                             <th scope="col" class="text-base px-6 py-3 rounded-tr-lg">
@@ -70,6 +73,9 @@
                                 <th scope="row" class="px-6 py-4 ">
                                     {{ $key + 1 }}
                                 </th>
+                                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {{ $value->floorstudy->name }}
+                                </td>
                                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{ $value->name }}
                                 </td>

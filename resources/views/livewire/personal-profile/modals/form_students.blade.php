@@ -3,7 +3,7 @@
     class=" hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-3xl max-h-full ">
         <!-- Modal content -->
-        <form wire:submit="createUser">
+        <form wire:submit="saveStudent">
             <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700 border-2 border-solid border-[#20518d]">
                 <!-- Modal header -->
                 <div
@@ -24,7 +24,7 @@
                 </div>
                 <!-- Modal body -->
                 <div class="p-4 md:p-5 space-y-4">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="md:col-span-3">
                             <div class="inline-flex items-center justify-center w-full">
                                 <hr class="w-64 h-1 my-8 bg-gray-700 border-0 rounded-sm dark:bg-gray-700">
@@ -35,27 +35,44 @@
                             </div>
                         </div>
                         <div>
-                            <label for="name"
+                            <label for="first_name"
                                 class="text-base block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                ຊື່ ແລະ ນາມສະກຸນ</label>
-                            <input type="text" id="name" wire:model="name"
+                                ຊື່
+                            </label>
+                            <input type="text" id="first_name" wire:model="first_name"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 required />
                             <div>
-                                @error('name')
+                                @error('first_name')
                                     <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                                         {{ $message }}
                                     </p>
                                 @enderror
                             </div>
                         </div>
-
                         <div>
-                            <label for="name"
+                            <label for="last_name"
+                                class="text-base block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                ນາມສະກຸນ</label>
+                            <input type="text" id="last_name" wire:model="last_name"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                required />
+                            <div>
+                                @error('last_name')
+                                    <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                                        {{ $message }}
+                                    </p>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label for="birthday"
                                 class="text-base block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 ວັນເດືອນປິເກີດ
                             </label>
-                            <input type="date" id="name" wire:model="name"
+                            <input type="date" id="birthday" wire:model="birthday"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 required />
                             <div>
@@ -67,111 +84,87 @@
                             </div>
                         </div>
                         <div>
-                            <label for="countries"
+                            <label for="ethnic"
                                 class="text-base block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 ຊົນເຜົ່າ
                             </label>
-                            <select id="role" wire:model="role"
+                            <select id="ethnic" wire:model="ethnic"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option selected>ເລືອກຊົນເຜົ່າ</option>
-                                <option selected>ເລືອກຊົນເຜົ່າ</option>
-                                <option selected>ເລືອກຊົນເຜົ່າ</option>
-
-                            </select>
-                            <div>
-                                @error('role')
-                                    <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-                                        {{ $message }}
-                                    </p>
-                                @enderror
-                            </div>
-                        </div>
-                        <div>
-                            <label for="countries"
-                                class="text-base block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                ບ້ານ
-                            </label>
-                            <select id="role" wire:model="role"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option selected>ເລືອກບ້ານ</option>
-                                <option selected>ເລືອກບ້ານ</option>
-                                <option selected>ເລືອກບ້ານ</option>
-
-                            </select>
-                            <div>
-                                @error('role')
-                                    <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-                                        {{ $message }}
-                                    </p>
-                                @enderror
-                            </div>
-                        </div>
-                        <div>
-                            <label for="countries"
-                                class="text-base block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                ເມືອງ
-                            </label>
-                            <select id="role" wire:model="role"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option selected>ເລືອກເມືອງ</option>
-                                <option selected>ເລືອກເມືອງ</option>
-                                <option selected>ເລືອກເມືອງ</option>
-
-                            </select>
-                            <div>
-                                @error('role')
-                                    <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-                                        {{ $message }}
-                                    </p>
-                                @enderror
-                            </div>
-                        </div>
-                        <div>
-                            <label for="countries"
-                                class="text-base block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                ແຂວງ
-                            </label>
-                            <select id="role" wire:model="role"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option selected>ເລືອກແຂວງ</option>
-                                <option selected>ເລືອກແຂວງ</option>
-                                <option selected>ເລືອກແຂວງ</option>
-
-                            </select>
-                            <div>
-                                @error('role')
-                                    <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-                                        {{ $message }}
-                                    </p>
-                                @enderror
-                            </div>
-                        </div>
-
-
-
-                        {{--
-                        <div>
-                            <label for="countries"
-                                class="text-base block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                ສີດຜູ້ໃຊ້
-                            </label>
-                            <select id="role" wire:model="role"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option selected>ເລືອກສີດຜູ້ໃຊ້</option>
-                                @foreach ($roleData as $key => $value)
-                                    <option value="{{ $value->name }}">
-                                        {{ $value->name }}
-                                    </option>
+                                @foreach ($araryEthnic as $value)
+                                    <option value="{{ $value }}">{{ $value }}</option>
                                 @endforeach
                             </select>
                             <div>
-                                @error('role')
+                                @error('ethnic')
                                     <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                                         {{ $message }}
                                     </p>
                                 @enderror
                             </div>
-                        </div> --}}
+                        </div>
+                        <div>
+                            <label for="province_id"
+                                class="text-base block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                ແຂວງ
+                            </label>
+                            <select id="province_id" wire:model.live="province_id"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                <option selected>ເລືອກແຂວງ</option>
+                                @foreach ($province as $key => $value)
+                                    <option value="{{ $value->id }}">{{ $value->name_la }}</option>
+                                @endforeach
+                            </select>
+                            <div>
+                                @error('province_id')
+                                    <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                                        {{ $message }}
+                                    </p>
+                                @enderror
+                            </div>
+                        </div>
+                        <div>
+                            <label for="district_id"
+                                class="text-base block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                ເມືອງ
+                            </label>
+                            <select id="district_id" wire:model.live="district_id"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                <option selected>ເລືອກເມືອງ</option>
+                                @foreach ($district as $key => $value)
+                                    <option value="{{ $value->id }}">{{ $value->name_la }}</option>
+                                @endforeach
+
+                            </select>
+                            <div>
+                                @error('district_id')
+                                    <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                                        {{ $message }}
+                                    </p>
+                                @enderror
+                            </div>
+                        </div>
+                        <div>
+                            <label for="village_id"
+                                class="text-base block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                ບ້ານ
+                            </label>
+                            <select id="village_id" wire:model="village_id"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                <option selected>ເລືອກບ້ານ</option>
+                                @foreach ($village as $key => $value)
+                                    <option value="{{ $value->id }}">{{ $value->name_la }}</option>
+                                @endforeach
+
+                            </select>
+                            <div>
+                                @error('village_id')
+                                    <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                                        {{ $message }}
+                                    </p>
+                                @enderror
+                            </div>
+                        </div>
 
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -185,15 +178,15 @@
                             </div>
                         </div>
                         <div>
-                            <label for="name"
+                            <label for="father"
                                 class="text-base block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 ຊື່ ພໍ່
                             </label>
-                            <input type="text" id="name" wire:model="name"
+                            <input type="text" id="father" wire:model="father"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 required />
                             <div>
-                                @error('name')
+                                @error('father')
                                     <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                                         {{ $message }}
                                     </p>
@@ -201,15 +194,15 @@
                             </div>
                         </div>
                         <div>
-                            <label for="name"
+                            <label for="f_phone"
                                 class="text-base block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 ເບີໂທ
                             </label>
-                            <input type="text" id="name" wire:model="name"
+                            <input type="text" id="f_phone" wire:model="f_phone"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 required />
                             <div>
-                                @error('name')
+                                @error('f_phone')
                                     <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                                         {{ $message }}
                                     </p>
@@ -217,15 +210,15 @@
                             </div>
                         </div>
                         <div>
-                            <label for="name"
+                            <label for="f_occupation"
                                 class="text-base block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 ອາຊີບ
                             </label>
-                            <input type="text" id="name" wire:model="name"
+                            <input type="text" id="f_occupation" wire:model="f_occupation"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 required />
                             <div>
-                                @error('name')
+                                @error('f_occupation')
                                     <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                                         {{ $message }}
                                     </p>
@@ -233,15 +226,15 @@
                             </div>
                         </div>
                         <div>
-                            <label for="name"
+                            <label for="mother"
                                 class="text-base block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 ຊື່ ແມ່
                             </label>
-                            <input type="text" id="name" wire:model="name"
+                            <input type="text" id="mother" wire:model="mother"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 required />
                             <div>
-                                @error('name')
+                                @error('mother')
                                     <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                                         {{ $message }}
                                     </p>
@@ -249,15 +242,15 @@
                             </div>
                         </div>
                         <div>
-                            <label for="name"
+                            <label for="m_phone"
                                 class="text-base block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 ເບີໂທ
                             </label>
-                            <input type="text" id="name" wire:model="name"
+                            <input type="text" id="m_phone" wire:model="m_phone"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 required />
                             <div>
-                                @error('name')
+                                @error('m_phone')
                                     <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                                         {{ $message }}
                                     </p>
@@ -265,15 +258,15 @@
                             </div>
                         </div>
                         <div>
-                            <label for="name"
+                            <label for="m_occupation"
                                 class="text-base block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 ອາຊີບ
                             </label>
-                            <input type="text" id="name" wire:model="name"
+                            <input type="text" id="m_occupation" wire:model="m_occupation"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 required />
                             <div>
-                                @error('name')
+                                @error('m_occupation')
                                     <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                                         {{ $message }}
                                     </p>
@@ -292,20 +285,20 @@
                             </div>
                         </div>
                         <div>
-                            <label for="countries"
+                            <label for="class_id"
                                 class="text-base block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 ຫ້ອງຮຽນ
                             </label>
-                            <select id="role" wire:model="role"
+                            <select id="class_id" wire:model="class_id"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option selected>ເລືອກຫ້ອງຮຽນ</option>
-                                <option>ປ 1/1</option>
-                                <option>ປ 1/2</option>
-                                <option>ປ 1/3</option>
+                                @foreach ($classroom as $key => $value)
+                                    <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                @endforeach
 
                             </select>
                             <div>
-                                @error('role')
+                                @error('class_id')
                                     <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                                         {{ $message }}
                                     </p>
@@ -313,19 +306,20 @@
                             </div>
                         </div>
                         <div>
-                            <label for="countries"
+                            <label for="yearstudy_id"
                                 class="text-base block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 ສົກຮຽນ
                             </label>
-                            <select id="role" wire:model="role"
+                            <select id="yearstudy_id" wire:model="yearstudy_id"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option selected>ເລືອກສີດຜູ້ໃຊ້</option>
-                                <option selected>ເລືອກສີດຜູ້ໃຊ້</option>
-                                <option selected>ເລືອກສີດຜູ້ໃຊ້</option>
+                                <option selected>ເລືອກສົກຮຽນ</option>
+                                @foreach ($yearstudy as $key => $value)
+                                    <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                @endforeach
 
                             </select>
                             <div>
-                                @error('role')
+                                @error('yearstudy_id')
                                     <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                                         {{ $message }}
                                     </p>
@@ -344,7 +338,7 @@
                             class="py-2.5 px-5 ms-3 text-sm font-medium text-white focus:outline-none bg-[#a6a6a6] hover:bg-[#666666] rounded-lg border border-gray-200  hover:text-white focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-[#a6a6a6] dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-[#666666]">
                             ປີດ
                         </button>
-                        @can('user create')
+                        @can('students create')
                             <button type="submit"
                                 class="text-white bg-[#20518d] hover:bg-[#133053] focus:ring-4 focus:outline-none focus:ring-[#133053] font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-[#20518d] dark:hover:bg-[#133053] dark:focus:ring-[#20518d]">
                                 ບັນທຶກ

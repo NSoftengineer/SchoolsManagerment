@@ -11,10 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('classrooms', function (Blueprint $table) {
+        Schema::create('list_items', function (Blueprint $table) {
             $table->id();
-            $table->integer('floorstudies_id');
-            $table->string('name');
+            $table->string('userid');
+            $table->integer('tuition_id');
+            $table->integer('items_id');
+            $table->text('items_title');
+            $table->integer('amount');
+            $table->float('amount_per_unit', 13, 2);
+            $table->float('total_amout', 13, 2);
+            $table->integer('type');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -25,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('classrooms');
+        Schema::dropIfExists('list_items');
     }
 };

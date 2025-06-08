@@ -4,15 +4,13 @@
         <div class="grid grid-cols-1 gap-4">
             <div>
                 <form class="flex items-center mx-auto">
-                    <select id="countries"
+                    <select id="selectedClass" wire:model="selectedClass" wire:change="selectdataclass"
                         class=" me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option selected>ເລືອກຫ້ອງຮຽນ</option>
-                        <option value="US">United States</option>
-                        <option value="CA">Canada</option>
-                        <option value="FR">France</option>
-                        <option value="DE">Germany</option>
+                        @foreach ($selectClass as $key => $value)
+                            <option value="{{ $value->id }}">{{ $value->name }}</option>
+                        @endforeach
                     </select>
-
                     <label for="simple-search" class="sr-only">Search</label>
                     <div class="relative w-full">
                         <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -61,35 +59,47 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                                <th scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    ທ້າວ ບຸນຄ້ຳ ບຸນຍືນ
-                                </th>
-                                <td class="px-6 py-4">
-                                    ປ 5/2
-                                </td>
-                                <td class="px-6 py-4">
-                                    <select id="small"
-                                        class="block py-2.5 px-2 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">
-                                        <option selected>ເລືອກການຈ່າຍ</option>
-                                        <option value="US">ພາກຮຽນ I</option>
-                                        <option value="CA">ພາກຮຽນ II</option>
-                                        <option value="CA">ພາກຮຽນ I ແລະ ພາກຮຽນ II</option>
-                                        <option value="FR">ເດື່ອນ ຕໍ່ ເດືອນ</option>
-                                    </select>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center  ">
-                                        <input id="default-checkbox_all" type="checkbox" value=""
-                                            wire:click="clickaaa()"
-                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                        <label for="default-checkbox_all"
-                                            class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"></label>
-                                    </div>
-                                </td>
-                            </tr>
-
+                            @foreach ($student as $key => $value)
+                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                                    <th scope="row"
+                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {{ $value->first_name }} {{ $value->last_name }}
+                                    </th>
+                                    <td class="px-6 py-4">
+                                        {{ $value->studentclass->classroom->name }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <select id="small" wire:model.live="payment_of"
+                                            class="block py-2.5 px-2 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">
+                                            <option selected>ເລືອກການຈ່າຍ</option>
+                                            @if ($value->studentclass->studycost->type_payment == 0)
+                                                <option value="0">ເດື່ອນ ຕໍ່ ເດືອນ</option>
+                                            @endif
+                                            @if ($value->studentclass->studycost->type_payment == 1)
+                                                <option value="1">ພາກຮຽນ I</option>
+                                                <option value="2">ພາກຮຽນ II</option>
+                                                <option value="3">ພາກຮຽນ I ແລະ ພາກຮຽນ II</option>
+                                            @endif
+                                            @if ($value->studentclass->studycost->type_payment == 2)
+                                                <option value="0">ເດື່ອນ ຕໍ່ ເດືອນ</option>
+                                                <option value="1">ພາກຮຽນ I</option>
+                                                <option value="2">ພາກຮຽນ II</option>
+                                                <option value="3">ພາກຮຽນ I ແລະ ພາກຮຽນ II</option>
+                                            @endif
+                                        </select>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center  ">
+                                            <input id="default-{{ $value->id }}" type="checkbox"
+                                                {{ $payment_of == '' ? 'disabled' : '' }} value="{{ $value->id }}"
+                                                wire:click="selectStuden('{{ $value->id }}','{{ $value->studentclass->classroom->id }}','{{ $value->studentclass->studycost->yearstudies_id }}','{{ $value->studentclass->classroom->floorstudy->id }}')"
+                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                            <label for="default-{{ $value->id }}"
+                                                class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -98,7 +108,7 @@
         </div>
     </div>
     <div class="relative overflow-x-auto">
-        <button type="button" wire:click="onModalShowFormRegisterStudent"
+        <button {{ $student_id == '' ? 'disabled' : '' }} type="button" wire:click="onModalShowFormRegisterStudent"
             class="cursor-pointer px-5 py-2.5 text-sm font-medium text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
             <svg class="w-6 h-6 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                 width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
@@ -110,8 +120,12 @@
                     clip-rule="evenodd" />
             </svg>
             ຮັບເງີນ & ພິມໃບບີນ
+            {{-- {{ $student_id }}
+            {{ $classroom_id }}
+            {{ $yearstudies_id }}
+            {{ $floorstudy_id }} --}}
         </button>
-        <button type="button"
+        <button {{ $student_id == '' ? 'disabled' : '' }} type="button" wire:click="studentsprint"
             class="cursor-pointer px-5 py-2.5 text-sm font-medium text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
             <svg class="w-6 h-6 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                 width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
@@ -119,8 +133,6 @@
                     d="M8 3a2 2 0 0 0-2 2v3h12V5a2 2 0 0 0-2-2H8Zm-3 7a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h1v-4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v4h1a2 2 0 0 0 2-2v-5a2 2 0 0 0-2-2H5Zm4 11a1 1 0 0 1-1-1v-4h8v4a1 1 0 0 1-1 1H9Z"
                     clip-rule="evenodd" />
             </svg>
-
-
             ພິມໃບບີນໃໝ່
         </button>
 
@@ -134,55 +146,122 @@
                         ລາຍການ
                     </th>
                     <th scope="col" class="text-base px-6 py-3">
+                        ຈຳນວນ
+                    </th>
+                    <th scope="col" class="text-base px-6 py-3">
                         ຈຳນວນເງິນ
                     </th>
+                    <th scope="col" class="text-base px-6 py-3">
+                        ລວມ
+                    </th>
                     <th scope="col" class="text-base px-6 py-3 rounded-tr-lg">
-                        <div class="flex items-center">
+                        {{-- <div class="flex items-center">
                             <input id="default-checkbox_all" type="checkbox" value="" wire:click="clickaaa()"
                                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                             <label for="default-checkbox_all"
                                 class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"></label>
-                        </div>
+                        </div> --}}
                     </th>
                 </tr>
             </thead>
             <tbody>
-                @for ($i = 0; $i < count($item); $i++)
-                    @php $a = $i + 1;  @endphp
+                @php $total = 0; @endphp
+                @php $minusItem = 0; @endphp
+                {{-- {{ print_r($this->Itemstudent) }} --}}
+                @foreach ($Itemstudent as $key => $value)
+                    @php
+                        $total += $value['price'];
+                        if ($value['type'] == 1) {
+                            $minusItem += $value['price'];
+                        }
+
+                    @endphp
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
                         <th scope="row"
                             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ $a }}
+                            {{ $key + 1 }}
                         </th>
                         <td class="px-6 py-4">
-                            {{ $item[$i] }}
+                            {{ $value['name'] }}
+                        </td>
+                        <td class="px-6 py-4">
+                            @if ($value['disabled'] != 'disabled')
+                                <div class="grid grid-cols-3 gap-4">
+                                    <div>
+                                        <svg wire:click="plus('{{ $value['id'] }}')"
+                                            class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round"
+                                                stroke-linejoin="round" stroke-width="2"
+                                                d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        {{ $value['items'] }}
+                                    </div>
+                                    <div>
+                                        @if ($value['items'] != 1)
+                                            <svg disabled wire:click="minus('{{ $value['id'] }}')"
+                                                class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke-width="2"
+                                                    d="M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                            </svg>
+                                        @else
+                                            <svg class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke-width="2"
+                                                    d="M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                            </svg>
+                                        @endif
+
+                                    </div>
+                                </div>
+                            @else
+                                <div class="grid grid-cols-3 gap-4">
+                                    <div>
+
+                                    </div>
+                                    <div>
+                                        {{ $value['items'] }}
+                                    </div>
+                                    <div>
+
+                                    </div>
+                                </div>
+                            @endif
+
                         </td>
                         <td class="px-6 py-4 text-end">
-                            {{ number_format($price[$i]) }}
+                            {{ number_format($value['price']) }}
+                        </td>
+                        <td class="px-6 py-4 text-end">
+                            {{ number_format($value['priceTotal']) }}
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex items-center">
-                                <input id="default-checkbox_all" type="checkbox" checked value=""
-                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                <label for="default-checkbox_all"
-                                    class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"></label>
+                                <input id="default-checkbox_all" type="checkbox" {{ $value['disabled'] }} checked
+                                    value="" wire:click="selectPrice('{{ $value['id'] }}')"
+                                    class="w-4 h-4 text-{{ $value['disabled'] == 'disabled' ? 'gray' : 'blue' }}-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+
                             </div>
                         </td>
                     </tr>
-                @endfor
+                @endforeach
 
             </tbody>
             <tfoot class="bg-[#20518d] text-white">
                 <tr>
-                    <td colspan="2" class="text-base px-6 py-4 text-end">
+                    <td colspan="4" class="text-base px-6 py-4 text-end">
                         ລວມ
                     </td>
                     <td class="text-base px-6 py-4 text-end">
-                        @php $countPrice = 0 @endphp
-                        @for ($c = 0; $c < count($price); $c++)
-                            @php $countPrice += $price[$c] @endphp
-                        @endfor
-                        {{ number_format($countPrice) }}
+                        {{ number_format($ItemstudentTotal) }}
                     </td>
                     <td></td>
                 </tr>
@@ -192,6 +271,13 @@
 
 </div>
 <script>
+    window.addEventListener('printbill', event => {
+        console.log(event.detail[0]);
+        var invoice = event.detail[0];
+        window.open(`http://127.0.0.1:8000/income/students-print/${invoice}`, '_blank')
+        location.reload();
+    });
+
     function modalShowFormRegisterStudent() {
         const $targetEl = document.getElementById('form_register_student');
         const modal = new Modal($targetEl);

@@ -14,4 +14,14 @@ class StudentClass extends Model
         'classrooms_id',
         'status',
     ];
+
+
+    public function classroom()
+    {
+        return $this->hasOne(Classroom::class, 'id', 'classrooms_id')->with('floorstudy');
+    }
+    public function studycost()
+    {
+        return $this->hasOne(coststudy::class, 'classrooms_id', 'classrooms_id');
+    }
 }

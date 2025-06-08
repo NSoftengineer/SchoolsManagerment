@@ -3,18 +3,22 @@
 namespace App\Livewire\Setting;
 
 use App\Models\Classroom;
+use App\Models\Floorstudy;
 use Livewire\Component;
 
 class StudyRoom extends Component
 {
     public $name;
+    public $floorstudies_id;
     public $isId;
     public $ClassroomData = [];
+    public $floorstudiesData = [];
 
     protected $listeners = ['deleteStudyRoom' => 'deleteRoomStudy'];
     public function render()
     {
-        $this->ClassroomData = Classroom::all();
+        $this->ClassroomData = Classroom::with('floorstudy')->get();
+        $this->floorstudiesData = Floorstudy::all();
         return view('livewire.setting.study-room');
     }
 
@@ -24,9 +28,11 @@ class StudyRoom extends Component
             $this->isId = $id;
             $data = Classroom::find($id);
             $this->name = $data->name;
+            $this->floorstudies_id = $data->floorstudies_id;
         } else {
             $this->isId = false;
             $this->name = '';
+            $this->floorstudies_id = '';
         }
 
         $this->js("modalShow()");
@@ -40,11 +46,13 @@ class StudyRoom extends Component
     {
         $validate = $this->validate([
             'name' => ['required', 'string'],
+            'floorstudies_id' => ['required', 'integer'],
         ]);
 
         if ($this->isId != false) {
             $user = Classroom::find($this->isId);
             $user->name = $this->name;
+            $user->floorstudies_id = $this->floorstudies_id;
             $user->save();
             $this->isId = false;
             $this->name = '';
