@@ -26,6 +26,6 @@ class Student extends Model
 
     public function studentclass()
     {
-        return $this->hasOne(StudentClass::class, 'id', 'student_id');
+        return $this->hasOne(StudentClass::class, 'student_id', 'id')->with(['classroom', 'studycost']);
     }
 }

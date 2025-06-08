@@ -25,7 +25,7 @@ class coststudy extends Model
     }
     public function groupitem()
     {
-        return $this->belongsTo(Groupitem::class, 'groupitems_id');
+        return $this->belongsTo(Groupitem::class, 'groupitems_id')->with('items');
     }
     protected $appends = [
         'type_payment_label',

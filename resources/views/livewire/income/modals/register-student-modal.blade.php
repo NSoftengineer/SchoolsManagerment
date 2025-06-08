@@ -2,7 +2,7 @@
     class=" hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-3xl max-h-full ">
         <!-- Modal content -->
-        <form wire:submit="createUser">
+        <form wire:submit="paymentSave">
             <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700 border-2 border-solid border-[#20518d]">
                 <!-- Modal header -->
                 <div
@@ -30,30 +30,37 @@
                                 ຮັບເງິນການເສຍຄ່າເທີ່ມ
                             </h5>
                         </div>
+                        <div class="md:col-span-2">
+                            <div
+                                class="text-center mb-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                ຈຳນວນທີ່ຕ້ອງຈ່າຍ: {{ number_format($ItemstudentTotal) }}
+                            </div>
+                        </div>
                         <div class="flex items-center ps-4 border border-gray-200 rounded-sm dark:border-gray-700">
-                            <input id="bordered-radio-1" type="radio" value="" name="bordered-radio"
+                            <input id="payment-1" type="radio" value="3" name="payment" wire:model.live="payment"
                                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="bordered-radio-1"
+                            <label for="payment-1"
                                 class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                 ຮັບເງີນສົດ
                             </label>
                         </div>
                         <div class="flex items-center ps-4 border border-gray-200 rounded-sm dark:border-gray-700">
-                            <input checked id="bordered-radio-2" type="radio" value="" name="bordered-radio"
+                            <input checked id="payment-2" type="radio" value="1" name="payment"
+                                wire:model.live="payment"
                                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="bordered-radio-2"
+                            <label for="payment-2"
                                 class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                 ຮັບເງີນໂອນ
                             </label>
                         </div>
-                        <div class="mb-6 md:col-span-2">
+                        {{-- <div class="mb-6 md:col-span-2">
                             <label for="large-input"
                                 class="text-2xl block mb-2 font-medium text-gray-900 dark:text-white">
                                 ຈຳນວນທີ່ຮັບເງິນ
                             </label>
                             <input type="text" id="large-input"
                                 class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        </div>
+                        </div> --}}
                         {{-- <div class="mb-6 md:col-span-2">
                             <label for="large-input"
                                 class="text-2xl block mb-2 font-medium text-gray-900 dark:text-white">
@@ -72,13 +79,13 @@
                     <div>
 
                         <button wire:click="onModalCloseFormRegisterStudent" type="button"
-                            class="py-2.5 px-5 ms-3 text-sm font-medium text-white focus:outline-none bg-[#a6a6a6] hover:bg-[#666666] rounded-lg border border-gray-200  hover:text-white focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-[#a6a6a6] dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-[#666666]">
+                            class="py-2.5 px-5 ms-3 text-xl font-medium text-white focus:outline-none bg-[#a6a6a6] hover:bg-[#666666] rounded-lg border border-gray-200  hover:text-white focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-[#a6a6a6] dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-[#666666]">
                             ປີດ
                         </button>
-                        @can('user create')
+                        @can('income create')
                             <button type="submit"
-                                class="text-white bg-[#20518d] hover:bg-[#133053] focus:ring-4 focus:outline-none focus:ring-[#133053] font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-[#20518d] dark:hover:bg-[#133053] dark:focus:ring-[#20518d]">
-                                ບັນທຶກ
+                                class="text-white bg-[#20518d] hover:bg-[#133053] focus:ring-4 focus:outline-none focus:ring-[#133053] font-medium rounded-lg text-xl px-5 py-2.5 text-center dark:bg-[#20518d] dark:hover:bg-[#133053] dark:focus:ring-[#20518d]">
+                                ບັນທຶກການຈ່າຍ & ພີມບີນ
                             </button>
                         @endcan
                     </div>

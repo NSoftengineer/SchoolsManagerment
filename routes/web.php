@@ -6,6 +6,7 @@ use App\Http\Middleware\Authentications;
 use App\Livewire\Authen\Authen;
 use App\Livewire\Dashboard\Dashboard;
 use App\Livewire\Expenses\Expenses;
+use App\Livewire\Income\Components\RegisterStudentPrint;
 use App\Livewire\Income\Income;
 use App\Livewire\Income\Other;
 use App\Livewire\Income\StudentRegister;
@@ -48,6 +49,7 @@ Route::middleware([Authentications::class])->group(function () {
     Route::prefix('income')->group(function () {
         Route::get('/', Income::class)->name('income')->middleware('permission:income');
         Route::get('students', StudentRegister::class)->name('income.students');
+        Route::get('students-print/{invoice}', RegisterStudentPrint::class)->name('income.students.print');
         Route::get('others', Other::class)->name('income.other');
     });
 
