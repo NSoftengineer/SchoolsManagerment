@@ -35,6 +35,13 @@
                             </div>
                         </div>
                         <div>
+                            <label for="IsId" hidden
+                                class="text-base block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                ID
+                            </label>
+                            <input hidden type="text" id="IsId" wire:model="isIdStudent"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                required />
                             <label for="first_name"
                                 class="text-base block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 ຊື່
@@ -108,7 +115,8 @@
                                 class="text-base block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 ແຂວງ
                             </label>
-                            <select id="province_id" wire:model.live="province_id"
+                            <select id="province_id" wire:model="province_id"
+                                wire:change="getDistrict($event.target.value)"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option selected>ເລືອກແຂວງ</option>
                                 @foreach ($province as $key => $value)
@@ -128,7 +136,8 @@
                                 class="text-base block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 ເມືອງ
                             </label>
-                            <select id="district_id" wire:model.live="district_id"
+                            <select id="district_id" wire:model="district_id"
+                                wire:change="getVillage($event.target.value)"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option selected>ເລືອກເມືອງ</option>
                                 @foreach ($district as $key => $value)

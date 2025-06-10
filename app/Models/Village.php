@@ -11,4 +11,8 @@ class Village extends Model
         'name_la',
         'name_en',
     ];
+    public function district()
+    {
+        return $this->belongsTo(District::class, 'district_id', 'id');
+    }
 }

@@ -84,6 +84,14 @@
                 confirmButtonText: 'OK'
             })
         }
+        function alertUpSuccess() {
+            Swal.fire({
+                title: 'ປັບປຸງສໍາເລັດ',
+                text: "ປັບປຸງສໍາເລັດ",
+                icon: 'success',
+                confirmButtonText: 'OK'
+            })
+        }
 
         function alertError() {
             Swal.fire({

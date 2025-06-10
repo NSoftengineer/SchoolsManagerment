@@ -103,67 +103,67 @@
 
                             </td>
                             <td width="" class="text-base px-6 py-3  ">
-                                <input type="text" id="small-input" placeholder="ຄົນຫາ"
+                                <input type="text" id="small-input" placeholder="ຄົ້ນຫາ"
                                     class="w-[150px] block  p-2 text-gray-900 border border-gray-300  bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
                             </td>
                             <td class="text-base px-6 py-3">
-                                <input type="text" id="small-input" placeholder="ຄົນຫາ"
+                                <input type="text" id="small-input" placeholder="ຄົ້ນຫາ"
                                     class="block w-[100px] p-2 text-gray-900 border border-gray-300  bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
                             </td>
                             <td class="text-base px-6 py-3">
-                                <input type="text" id="small-input" placeholder="ຄົນຫາ"
+                                <input type="text" id="small-input" placeholder="ຄົ້ນຫາ"
                                     class="block w-[120px] p-2 text-gray-900 border border-gray-300  bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
                             </td>
                             <td class="text-base px-6 py-3">
-                                <input type="text" id="small-input" placeholder="ຄົນຫາ"
+                                <input type="text" id="small-input" placeholder="ຄົ້ນຫາ"
                                     class="block w-[150px] p-2 text-gray-900 border border-gray-300  bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
                             </td>
                             <td class="text-base px-6 py-3">
-                                <input type="text" id="small-input" placeholder="ຄົນຫາ"
+                                <input type="text" id="small-input" placeholder="ຄົ້ນຫາ"
                                     class="block w-[130px] p-2 text-gray-900 border border-gray-300  bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
                             </td>
                             <td class="text-base px-6 py-3">
-                                <input type="text" id="small-input" placeholder="ຄົນຫາ"
+                                <input type="text" id="small-input" placeholder="ຄົ້ນຫາ"
                                     class="block w-[130px] p-2 text-gray-900 border border-gray-300  bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
                             </td>
                             <td class="text-base px-6 py-3">
-                                <input type="text" id="small-input" placeholder="ຄົນຫາ"
+                                <input type="text" id="small-input" placeholder="ຄົ້ນຫາ"
                                     class="block w-[100px] p-2 text-gray-900 border border-gray-300  bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
                             </td>
                             <td class="text-base px-6 py-3">
-                                <input type="text" id="small-input" placeholder="ຄົນຫາ"
+                                <input type="text" id="small-input" placeholder="ຄົ້ນຫາ"
                                     class="block w-[100px] p-2 text-gray-900 border border-gray-300  bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
                             </td>
                             <td class="text-base px-6 py-3">
-                                <input type="text" id="small-input" placeholder="ຄົນຫາ"
+                                <input type="text" id="small-input" placeholder="ຄົ້ນຫາ"
                                     class="block w-[100px] p-2 text-gray-900 border border-gray-300  bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
                             </td>
                             <td class="text-base px-6 py-3">
-                                <input type="text" id="small-input" placeholder="ຄົນຫາ"
+                                <input type="text" id="small-input" placeholder="ຄົ້ນຫາ"
                                     class="block w-[100px] p-2 text-gray-900 border border-gray-300  bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
                             </td>
                             <td class="text-base px-6 py-3">
-                                <input type="text" id="small-input" placeholder="ຄົນຫາ"
+                                <input type="text" id="small-input" placeholder="ຄົ້ນຫາ"
                                     class="block w-[100px] p-2 text-gray-900 border border-gray-300  bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
                             </td>
                             <td class="text-base px-6 py-3">
-                                <input type="text" id="small-input" placeholder="ຄົນຫາ"
+                                <input type="text" id="small-input" placeholder="ຄົ້ນຫາ"
                                     class="block w-[100px] p-2 text-gray-900 border border-gray-300  bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
                             </td>
                             <td class="text-base px-6 py-3">
-                                <input type="text" id="small-input" placeholder="ຄົນຫາ"
+                                <input type="text" id="small-input" placeholder="ຄົ້ນຫາ"
                                     class="block w-[100px] p-2 text-gray-900 border border-gray-300  bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
                             </td>
@@ -189,37 +189,37 @@
                                     {{ $value->birthday }}
                                 </td>
                                 <td class="text-base px-6 py-3">
-                                    ຄຳສະຫວາດ
+                                    {{ $value->village->name_la }}
                                 </td>
                                 <td class="text-base px-6 py-3">
-                                    ເມືອງ ໄຊເສດຖາ
+                                    {{ $value->district->name_la }}
                                 </td>
                                 <td class="text-base px-6 py-3">
-                                    ນະຄອງຫຼວງວຽງຈັນ
+                                    {{ $value->province->name_la }}
                                 </td>
                                 <td class="text-base px-6 py-3">
-                                    ລາວ
+                                    {{ $value->ethnic }}
                                 </td>
                                 <td class="text-base px-6 py-3">
-                                    ປ໊ະປາ
+                                    {{ $value->father }}
                                 </td>
                                 <td class="text-base px-6 py-3">
-                                    020 96587858
+                                    {{ $value->f_phone }}
                                 </td>
                                 <td class="text-base px-6 py-3">
-                                    ພະນັກງານລັດ
+                                    {{ $value->f_occupation }}
                                 </td>
                                 <td class="text-base px-6 py-3">
-                                    ມ໊ະມາ
+                                    {{ $value->mother }}
                                 </td>
                                 <td class="text-base px-6 py-3">
-                                    020 96585478
+                                    {{ $value->m_phone }}
                                 </td>
                                 <td class="text-base px-6 py-3">
-                                    ພະນັກງານລັດ
+                                    {{ $value->m_occupation }}
                                 </td>
                                 <td class="text-base px-6 py-3">
-                                    <button type="button"
+                                    <button type="button" wire:click="onModalEdit({{ $value->id }})"
                                         class="text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-1 text-center inline-flex items-center dark:focus:ring-yellow-900 me-2 mb-2">
                                         <svg class="w-6 h-6 text-white dark:text-white" aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -234,7 +234,7 @@
                                         {{-- ແກ້ໄຂ --}}
                                     </button>
 
-                                    <button type="button"
+                                    <button type="button" onclick="confirmDelete({{ $value->id }})"
                                         class="focus:outline-none text-white bg-red-400 hover:bg-red-500 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-1 me-2 mb-2 dark:focus:ring-red-900 inline-flex items-center">
                                         <svg class="w-6 h-6 textwhite dark:text-white" aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -280,5 +280,23 @@
         const $targetEl = document.getElementById('form_students_search');
         const modal = new Modal($targetEl);
         modal.hide();
+    }
+
+    function confirmDelete(id) {
+        Swal.fire({
+            title: 'ແນ່ໃຈບໍ່ວ່າຈະລົບ?',
+            text: "ຫາກລົບແລ້ວບໍ່ສາມາດກູ້ໃຫ້ຄືນໄດ້!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'ຕ້ອງການລົບ',
+            cancelButtonText: 'ບໍ່ຕ້ອງການ'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                @this.set('isId', id)
+                Livewire.dispatch('studentDelete');
+            }
+        })
     }
 </script>

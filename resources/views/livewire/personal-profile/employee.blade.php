@@ -1,5 +1,5 @@
 <div>
-    @include('livewire.personal-profile.modals.form_students')
+    {{-- @include('livewire.personal-profile.modals.form_students') --}}
     @include('livewire.personal-profile.modals.form_students_search')
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div class="text-xl text-gray-900 text-center md:text-start dark:text-white">
