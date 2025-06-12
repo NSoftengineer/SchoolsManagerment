@@ -171,21 +171,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td class="text-base px-6 py-3">
-                                <img class="h-20 max-w-xs" src="{{ asset('assets/logo.jpg') }}"
-                                    alt="image description">
-                            </td>
-                            <td class="text-base px-6 py-3">
-                                ndev developer
-                            </td>
-                            <td class="text-base px-6 py-3">
-                                ປ 5/2
-                            </td>
-                            <td class="text-base px-6 py-3">
-                                26-04-2022
-                            </td>
-                            {{-- <td class="text-base px-6 py-3">
+                        @foreach ($employees as $value)
+                            <tr>
+                                <td class="text-base px-6 py-3">
+                                    <img class="h-20 max-w-xs" src="{{ asset('assets/logo.jpg') }}"
+                                        alt="image description">
+                                </td>
+                                <td class="text-base px-6 py-3">
+                                    {{ $value->full_name }}
+                                </td>
+                                <td class="text-base px-6 py-3">
+                                    {{ $value->full_name }}
+                                </td>
+                                <td class="text-base px-6 py-3">
+                                    {{ $value->birthday }}
+                                </td>
+                                {{-- <td class="text-base px-6 py-3">
                                 ຄຳສະຫວາດ
                             </td>
                             <td class="text-base px-6 py-3">
@@ -194,61 +195,64 @@
                             <td class="text-base px-6 py-3">
                                 ນະຄອງຫຼວງວຽງຈັນ
                             </td> --}}
-                            <td class="text-base px-6 py-3">
-                                ໂສດ
-                            </td>
-                            <td class="text-base px-6 py-3">
-                                020 96587858
-                            </td>
-                            <td class="text-base px-6 py-3">
-                                68 Kg
-                            </td>
-                            <td class="text-base px-6 py-3">
-                                165 cm
-                            </td>
-                            <td class="text-base px-6 py-3">
-                                XL
-                            </td>
+                                <td class="text-base px-6 py-3">
+                                    {{ $value->single }}
+                                </td>
+                                <td class="text-base px-6 py-3">
+                                    {{ $value->phones }}
+                                </td>
+                                <td class="text-base px-6 py-3">
+                                    {{ $value->weight }}
+                                </td>
+                                <td class="text-base px-6 py-3">
+                                    {{ $value->height }}
+                                </td>
+                                <td class="text-base px-6 py-3">
+                                    {{ $value->clothes_size }}
+                                </td>
 
-                            <td class="text-base px-6 py-3">
-                                <button type="button"
-                                    onclick="window.location='{{ route('employees_view', ['id' => 1]) }}'"
-                                    class="text-white bg-blue-400 hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1 text-center inline-flex items-center dark:focus:ring-blue-900 me-2 mb-2">
-                                    <svg class="w-6 h-6 text-white dark:text-white" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        fill="currentColor" viewBox="0 0 24 24">
-                                        <path fill-rule="evenodd"
-                                            d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-4Z"
-                                            clip-rule="evenodd" />
-                                    </svg>
+                                <td class="text-base px-6 py-3">
+                                    <button type="button"
+                                        onclick="window.location='{{ route('employees_view', ['id' => $value->id]) }}'"
+                                        class="text-white bg-blue-400 hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1 text-center inline-flex items-center dark:focus:ring-blue-900 me-2 mb-2">
+                                        <svg class="w-6 h-6 text-white dark:text-white" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            fill="currentColor" viewBox="0 0 24 24">
+                                            <path fill-rule="evenodd"
+                                                d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-4Z"
+                                                clip-rule="evenodd" />
+                                        </svg>
 
-                                </button>
+                                    </button>
 
-                                <button type="button"
-                                    onclick="window.location='{{ route('employees_edit', ['id' => 1, 'update' => 'update']) }}'"
-                                    class="text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-3 py-1 text-center inline-flex items-center dark:focus:ring-yellow-900 me-2 mb-2">
-                                    <svg class="w-6 h-6 text-white dark:text-white" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                        <path fill-rule="evenodd"
-                                            d="M11.32 6.176H5c-1.105 0-2 .949-2 2.118v10.588C3 20.052 3.895 21 5 21h11c1.105 0 2-.948 2-2.118v-7.75l-3.914 4.144A2.46 2.46 0 0 1 12.81 16l-2.681.568c-1.75.37-3.292-1.263-2.942-3.115l.536-2.839c.097-.512.335-.983.684-1.352l2.914-3.086Z"
-                                            clip-rule="evenodd" />
-                                        <path fill-rule="evenodd"
-                                            d="M19.846 4.318a2.148 2.148 0 0 0-.437-.692 2.014 2.014 0 0 0-.654-.463 1.92 1.92 0 0 0-1.544 0 2.014 2.014 0 0 0-.654.463l-.546.578 2.852 3.02.546-.579a2.14 2.14 0 0 0 .437-.692 2.244 2.244 0 0 0 0-1.635ZM17.45 8.721 14.597 5.7 9.82 10.76a.54.54 0 0 0-.137.27l-.536 2.84c-.07.37.239.696.588.622l2.682-.567a.492.492 0 0 0 .255-.145l4.778-5.06Z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                </button>
+                                    <button type="button"
+                                        onclick="window.location='{{ route('employees_edit', ['id' => $value->id, 'update' => 'update']) }}'"
+                                        class="text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-3 py-1 text-center inline-flex items-center dark:focus:ring-yellow-900 me-2 mb-2">
+                                        <svg class="w-6 h-6 text-white dark:text-white" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path fill-rule="evenodd"
+                                                d="M11.32 6.176H5c-1.105 0-2 .949-2 2.118v10.588C3 20.052 3.895 21 5 21h11c1.105 0 2-.948 2-2.118v-7.75l-3.914 4.144A2.46 2.46 0 0 1 12.81 16l-2.681.568c-1.75.37-3.292-1.263-2.942-3.115l.536-2.839c.097-.512.335-.983.684-1.352l2.914-3.086Z"
+                                                clip-rule="evenodd" />
+                                            <path fill-rule="evenodd"
+                                                d="M19.846 4.318a2.148 2.148 0 0 0-.437-.692 2.014 2.014 0 0 0-.654-.463 1.92 1.92 0 0 0-1.544 0 2.014 2.014 0 0 0-.654.463l-.546.578 2.852 3.02.546-.579a2.14 2.14 0 0 0 .437-.692 2.244 2.244 0 0 0 0-1.635ZM17.45 8.721 14.597 5.7 9.82 10.76a.54.54 0 0 0-.137.27l-.536 2.84c-.07.37.239.696.588.622l2.682-.567a.492.492 0 0 0 .255-.145l4.778-5.06Z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                    </button>
 
-                                <button type="button"
-                                    class="focus:outline-none text-white bg-red-400 hover:bg-red-500 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-1 me-2 mb-2 dark:focus:ring-red-900 inline-flex items-center">
-                                    <svg class="w-6 h-6 textwhite dark:text-white" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                        <path fill-rule="evenodd"
-                                            d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm7.707-3.707a1 1 0 0 0-1.414 1.414L10.586 12l-2.293 2.293a1 1 0 1 0 1.414 1.414L12 13.414l2.293 2.293a1 1 0 0 0 1.414-1.414L13.414 12l2.293-2.293a1 1 0 0 0-1.414-1.414L12 10.586 9.707 8.293Z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                </button>
-                            </td>
-                        </tr>
+                                    <button type="button" onclick="confirmDelete({{ $value->id }})"
+                                        class="focus:outline-none text-white bg-red-400 hover:bg-red-500 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-1 me-2 mb-2 dark:focus:ring-red-900 inline-flex items-center">
+                                        <svg class="w-6 h-6 textwhite dark:text-white" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path fill-rule="evenodd"
+                                                d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm7.707-3.707a1 1 0 0 0-1.414 1.414L10.586 12l-2.293 2.293a1 1 0 1 0 1.414 1.414L12 13.414l2.293 2.293a1 1 0 0 0 1.414-1.414L13.414 12l2.293-2.293a1 1 0 0 0-1.414-1.414L12 10.586 9.707 8.293Z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                        @endforeach
 
                     </tbody>
                 </table>
@@ -258,27 +262,21 @@
     </div>
 </div>
 <script>
-    function modalShow() {
-        const $targetEl = document.getElementById('form_students');
-        const modal = new Modal($targetEl);
-        modal.show();
-    }
-
-    function modalclose() {
-        const $targetEl = document.getElementById('form_students');
-        const modal = new Modal($targetEl);
-        modal.hide();
-    }
-
-    function modalShowSearch() {
-        const $targetEl = document.getElementById('form_students_search');
-        const modal = new Modal($targetEl);
-        modal.show();
-    }
-
-    function modalcloseSearch() {
-        const $targetEl = document.getElementById('form_students_search');
-        const modal = new Modal($targetEl);
-        modal.hide();
+    function confirmDelete(id) {
+        Swal.fire({
+            title: 'ແນ່ໃຈບໍ່ວ່າຈະລົບ?',
+            text: "ຫາກລົບແລ້ວບໍ່ສາມາດກູ້ໃຫ້ຄືນໄດ້!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'ຕ້ອງການລົບ',
+            cancelButtonText: 'ບໍ່ຕ້ອງການ'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                @this.set('isId', id)
+                Livewire.dispatch('EmployeeDelete');
+            }
+        })
     }
 </script>

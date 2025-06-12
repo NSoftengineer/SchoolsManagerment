@@ -1,7 +1,7 @@
 <div>
     @include('livewire.personal-profile.modals.form_level_edu')
-    @include('livewire.personal-profile.modals.form_tech_history')
-    <form wire:submit.prevent="saveEmployee">
+    @include('livewire.personal-profile.modals.form_teach_history')
+    <form wire:submit.prevent="{{ $id > 0 ? 'updateEmployee' : 'saveEmployee' }}">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 ">
             <div class="col-span-2 md:col-span-4">
                 <nav class="flex" aria-label="Breadcrumb">
@@ -48,7 +48,7 @@
                 </nav>
             </div>
             <div class="col-span-2 md:col-span-4">
-                <p class="text-2xl font-black dark:text-white">ຂໍ້ມູນທົວໄປ</p>
+                <p class="text-2xl font-black dark:text-white">ຂໍ້ມູນທົວໄປ </p>
                 <hr class="h-px my-2 bg-black border-0 dark:bg-gray-700">
 
             </div>
@@ -71,7 +71,7 @@
                 <label for="birthday" class="text-base block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     ວັນເດືອນປິເກີດ
                 </label>
-                <input type="text" id="birthday" wire:model="birthday"
+                <input type="date" id="birthday" wire:model="birthday"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     required />
                 <div>
@@ -264,54 +264,89 @@
                                     ຂະແໜ່ງການສືກສືກສາ/ວຸດທິໄດ້ຮັບ
                                 </th>
                                 <th scope="col" class="text-center text-base px-6 py-3 rounded-tr-lg">
-                                    <button type="button" wire:click="onModalShow"
-                                        class="focus:outline-none text-white bg-purple-400 hover:bg-purple-500 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-3 py-2.5 me-2 mb-2 dark:focus:ring-purple-900">
-                                        ເພີ່ມ
-                                    </button>
+                                    @if ($id == 0 || $update != null)
+                                        <button type="button" wire:click="onModalShow"
+                                            class="focus:outline-none text-white bg-purple-400 hover:bg-purple-500 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-3 py-2.5 me-2 mb-2 dark:focus:ring-purple-900">
+                                            ເພີ່ມ
+                                        </button>
+                                    @endif
 
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                                <th scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    ມັດທະຍົມຕອນຕົ້ນ
-                                </th>
-                                <td class="px-6 py-4">
-                                    RMUTI
-                                </td>
-                                <td class="px-6 py-4">
-                                    LAOS
-                                </td>
-                                <td class="px-6 py-4">
-                                    2025
-                                </td>
-                                <td class="px-6 py-4">
-                                    ສາມັນ
-                                </td>
-                                <td></td>
-                            </tr>
-                            @foreach ($edu_level as $value)
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                                    <th scope="row"
-                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ $value['education_level'] }}
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        {{ $value['institution_name'] }}
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        {{ $value['country'] }}
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        {{ $value['years'] }}
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        {{ $value['details'] }}
-                                    </td>
-                                    <td></td>
-                                </tr>
+                            @foreach ($edu_level as $index => $value)
+                                @if ($value['education_name'])
+                                    <tr
+                                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                                        <th scope="row"
+                                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {{ $value['education_name'] }}
+                                        </th>
+                                        <td class="px-6 py-4">
+                                            {{ $value['institution_name'] }}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            {{ $value['country'] }}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            {{ $value['year_name'] }}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            {{ $value['details'] }}
+                                        </td>
+                                        <td class="px-6 py-4 text-center">
+                                            @if ($id == 0 || $update != null)
+                                                <button type="button"
+                                                    wire:click="unsetEducational({{ $index }})"
+                                                    class="focus:outline-none text-white bg-red-400 hover:bg-red-500 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-1 me-2 mb-2 dark:focus:ring-red-900 inline-flex items-center">
+                                                    <svg class="w-6 h-6 textwhite dark:text-white" aria-hidden="true"
+                                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path fill-rule="evenodd"
+                                                            d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm7.707-3.707a1 1 0 0 0-1.414 1.414L10.586 12l-2.293 2.293a1 1 0 1 0 1.414 1.414L12 13.414l2.293 2.293a1 1 0 0 0 1.414-1.414L13.414 12l2.293-2.293a1 1 0 0 0-1.414-1.414L12 10.586 9.707 8.293Z"
+                                                            clip-rule="evenodd" />
+                                                    </svg>
+                                                </button>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @else
+                                    <tr
+                                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                                        <th scope="row"
+                                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {{ $value->floor->name }}
+                                        </th>
+                                        <td class="px-6 py-4">
+                                            {{ $value->institution_name }}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            {{ $value->country }}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            {{ $value->yearstudy->name }}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            {{ $value->details }}
+                                        </td>
+                                        <td class="px-6 py-4 text-center">
+                                            @if ($id == 0 || $update != null)
+                                                <button type="button" {{-- wire:click="deleteEducation({{ $value->id }})" --}}
+                                                    onclick="confirmdelEducational({{ $value->id }})"
+                                                    class="focus:outline-none text-white bg-red-400 hover:bg-red-500 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-1 me-2 mb-2 dark:focus:ring-red-900 inline-flex items-center">
+                                                    <svg class="w-6 h-6 textwhite dark:text-white" aria-hidden="true"
+                                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path fill-rule="evenodd"
+                                                            d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm7.707-3.707a1 1 0 0 0-1.414 1.414L10.586 12l-2.293 2.293a1 1 0 1 0 1.414 1.414L12 13.414l2.293 2.293a1 1 0 0 0 1.414-1.414L13.414 12l2.293-2.293a1 1 0 0 0-1.414-1.414L12 10.586 9.707 8.293Z"
+                                                            clip-rule="evenodd" />
+                                                    </svg>
+                                                </button>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endif
                             @endforeach
                         </tbody>
                     </table>
@@ -341,47 +376,83 @@
                                     ໂຮງຮຽນທີ່ສອນ
                                 </th>
                                 <th scope="col" class="text-center text-base px-6 py-3 rounded-tr-lg">
-                                    <button type="button" wire:click="onModalShowHistory"
-                                        class="focus:outline-none text-white bg-purple-400 hover:bg-purple-500 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-3 py-2.5 me-2 mb-2 dark:focus:ring-purple-900">
-                                        ເພີ່ມ
-                                    </button>
+                                    @if ($id == 0 || $update != null)
+                                        <button type="button" wire:click="onModalShowHistory"
+                                            class="focus:outline-none text-white bg-purple-400 hover:bg-purple-500 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-3 py-2.5 me-2 mb-2 dark:focus:ring-purple-900">
+                                            ເພີ່ມ
+                                        </button>
+                                    @endif
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                                <th scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    ປ.5/2
-                                </th>
-                                <td class="px-6 py-4">
-                                    ຄະນິດສາດ
-                                </td>
-                                <td class="px-6 py-4">
-                                    2024/2025
-                                </td>
-                                <td class="px-6 py-4">
-                                    Liewkong school
-                                </td>
-                                <td></td>
-                            </tr>
-                            @foreach ($tech_history as $value)
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                                    <th scope="row"
-                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ $value['teaching_room'] }}
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        {{ $value['teaching'] }}
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        {{ $value['teaching_years'] }}
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        {{ $value['teaching_at'] }}
-                                    </td>
-                                    <td></td>
-                                </tr>
+                            @foreach ($teach_history as $index => $value)
+                                @if ($value['teaching_room_name'])
+                                    <tr
+                                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                                        <th scope="row"
+                                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {{ $value['teaching_room_name'] }}
+                                        </th>
+                                        <td class="px-6 py-4">
+                                            {{ $value['teaching'] }}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            {{ $value['teaching_years_name'] }}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            {{ $value['teaching_at'] }}
+                                        </td>
+                                        <td class="px-6 py-4 text-center">
+                                            @if ($id == 0 || $update != null)
+                                                <button type="button"
+                                                    wire:click="unsetTeachHistory({{ $index }})"
+                                                    class="focus:outline-none text-white bg-red-400 hover:bg-red-500 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-1 me-2 mb-2 dark:focus:ring-red-900 inline-flex items-center">
+                                                    <svg class="w-6 h-6 textwhite dark:text-white" aria-hidden="true"
+                                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path fill-rule="evenodd"
+                                                            d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm7.707-3.707a1 1 0 0 0-1.414 1.414L10.586 12l-2.293 2.293a1 1 0 1 0 1.414 1.414L12 13.414l2.293 2.293a1 1 0 0 0 1.414-1.414L13.414 12l2.293-2.293a1 1 0 0 0-1.414-1.414L12 10.586 9.707 8.293Z"
+                                                            clip-rule="evenodd" />
+                                                    </svg>
+                                                </button>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @else
+                                    <tr
+                                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                                        <th scope="row"
+                                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {{ $value->teachingRoom->name }}
+                                        </th>
+                                        <td class="px-6 py-4">
+                                            {{ $value->teaching }}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            {{ $value->yearstudy->name }}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            {{ $value->teaching_at }}
+                                        </td>
+                                        <td class="px-6 py-4 text-center">
+                                            @if ($id == 0 || $update != null)
+                                                <button type="button"
+                                                    onclick="confirmdelHistory({{ $value->id }})"
+                                                    {{-- wire:click="deleteHistory({{ $value->id }})" --}}
+                                                    class="focus:outline-none text-white bg-red-400 hover:bg-red-500 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-1 me-2 mb-2 dark:focus:ring-red-900 inline-flex items-center">
+                                                    <svg class="w-6 h-6 textwhite dark:text-white" aria-hidden="true"
+                                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path fill-rule="evenodd"
+                                                            d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm7.707-3.707a1 1 0 0 0-1.414 1.414L10.586 12l-2.293 2.293a1 1 0 1 0 1.414 1.414L12 13.414l2.293 2.293a1 1 0 0 0 1.414-1.414L13.414 12l2.293-2.293a1 1 0 0 0-1.414-1.414L12 10.586 9.707 8.293Z"
+                                                            clip-rule="evenodd" />
+                                                    </svg>
+                                                </button>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endif
                             @endforeach
                         </tbody>
                     </table>
@@ -440,14 +511,14 @@
                 </div>
             </div>
             <div>
-                <label for="name" class="text-base block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <label for="date_end" class="text-base block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     ມຶ້ສີ້ນສຸດການເຮັດວຽກ
                 </label>
-                <input type="date" id="name" wire:model="name"
+                <input type="date" id="date_end" wire:model="date_end"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     required />
                 <div>
-                    @error('name')
+                    @error('date_end')
                         <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                             {{ $message }}
                         </p>
@@ -455,12 +526,15 @@
                 </div>
             </div>
         </div>
-        <center>
-            <button type="submit"
-                class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                ບັນທືກ
-            </button>
-        </center>
+        @if ($id == 0 || $update != null)
+            <center>
+                <button type="submit"
+                    class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                    ບັນທືກ
+                </button>
+            </center>
+        @endif
+
     </form>
 </div>
 <script>
@@ -477,18 +551,18 @@
     }
 
     function modalShowHistory() {
-        const $targetEl = document.getElementById('form_tech_history');
+        const $targetEl = document.getElementById('form_teach_history');
         const modal = new Modal($targetEl);
         modal.show();
     }
 
     function modalcloseHistory() {
-        const $targetEl = document.getElementById('form_tech_history');
+        const $targetEl = document.getElementById('form_teach_history');
         const modal = new Modal($targetEl);
         modal.hide();
     }
 
-    function confirmDelete(id) {
+    function confirmdelEducational(id) {
         Swal.fire({
             title: 'ແນ່ໃຈບໍ່ວ່າຈະລົບ?',
             text: "ຫາກລົບແລ້ວບໍ່ສາມາດກູ້ໃຫ້ຄືນໄດ້!",
@@ -500,8 +574,26 @@
             cancelButtonText: 'ບໍ່ຕ້ອງການ'
         }).then((result) => {
             if (result.isConfirmed) {
-                @this.set('isId', id)
-                Livewire.dispatch('studentDelete');
+                @this.set('euId', id)
+                Livewire.dispatch('EducationDelete');
+            }
+        })
+    }
+
+    function confirmdelHistory(id) {
+        Swal.fire({
+            title: 'ແນ່ໃຈບໍ່ວ່າຈະລົບ?',
+            text: "ຫາກລົບແລ້ວບໍ່ສາມາດກູ້ໃຫ້ຄືນໄດ້!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'ຕ້ອງການລົບ',
+            cancelButtonText: 'ບໍ່ຕ້ອງການ'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                @this.set('hsId', id)
+                Livewire.dispatch('HistoryDelete');
             }
         })
     }

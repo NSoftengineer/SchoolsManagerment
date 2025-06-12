@@ -9,7 +9,6 @@ use App\Models\Student as ModelsStudent;
 use App\Models\StudentClass;
 use App\Models\Village;
 use App\Models\Yearstudy;
-use GuzzleHttp\Promise\Create;
 use Livewire\Component;
 
 class Student extends Component
