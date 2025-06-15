@@ -14,7 +14,7 @@ class District extends Model
     ];
 
 
-    public function viilages()
+    public function villages()
     {
         return $this->hasMany(Village::class, 'id', 'district_id');
     }

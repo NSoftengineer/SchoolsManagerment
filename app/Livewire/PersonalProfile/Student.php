@@ -9,11 +9,11 @@ use App\Models\Student as ModelsStudent;
 use App\Models\StudentClass;
 use App\Models\Village;
 use App\Models\Yearstudy;
-use GuzzleHttp\Promise\Create;
 use Livewire\Component;
 
 class Student extends Component
 {
+    protected $listeners = ['studentDelete' => 'deleteStudent'];
     public $araryEthnic = [
         'ລາວ',
         'ມົ້ງ',
@@ -78,7 +78,7 @@ class Student extends Component
     public $classroom = [];
     public $yearstudy = [];
 
-
+    public $isId;
     public $isIdStudent = 0;
     public $isIdStudentClass = 0;
     public $first_name;
@@ -100,18 +100,31 @@ class Student extends Component
     {
 
         $this->province = Province::all();
-        if ($this->province_id != "") {
-            $this->district = District::where('province_id', $this->province_id)->get();
-        }
-        if ($this->district_id != "") {
-            $this->village = Village::where('district_id', $this->district_id)->get();
-        }
+        // if ($this->province_id != "") {
+        //     $this->district = District::where('province_id', $this->province_id)->get();
+        // }
+        // if ($this->district_id != "") {
+        //     $this->village = Village::where('district_id', $this->district_id)->get();
+        // }
 
         $this->classroom = Classroom::all();
         $this->yearstudy = Yearstudy::orderBy('id', 'desc')->get();
 
-        $this->studentData = ModelsStudent::with(['studentclass'])->get();
+        $this->studentData = ModelsStudent::with(['studentclass', 'province', 'district', 'village'])->get();
         return view('livewire.personal-profile.student');
+    }
+    public function getDistrict($provinceId)
+    {
+        $this->district = District::where('province_id', $provinceId)->get();
+        // $this->village = Village::with('district') // use correct relation name
+        //     ->whereHas('district', function ($query) use ($provinceId) {
+        //         $query->where('province_id', $provinceId);
+        //     })
+        //     ->get();
+    }
+    public function getVillage($DistrictId)
+    {
+        $this->village = Village::where('district_id', $DistrictId)->get();
     }
 
     public function saveStudent()
@@ -133,35 +146,62 @@ class Student extends Component
             'class_id'      => ['required', 'integer'],
             'yearstudy_id'  => ['required', 'integer'],
         ]);
+        if ($this->isIdStudent) {
+            $ModelsStudent = ModelsStudent::find($this->isIdStudent);
+            if ($ModelsStudent) {
+                $ModelsStudent->update($validate);
+                $StudentClass = StudentClass::find($this->isIdStudent);
+                if ($StudentClass) {
+                    $StudentClass->update([
+                        "yearstudies_id" => $this->yearstudy_id,
+                        "classrooms_id" => $this->class_id,
+                    ]);
+                }
+                $this->js('alertUpSuccess()');
+            } else {
+                $this->js('alertError()');
+                return;
+            }
+        } else {
+            $ModelsStudent = ModelsStudent::create($validate);
+            if ($ModelsStudent) {
+                StudentClass::create([
+                    "student_id" => $ModelsStudent->id,
+                    "yearstudies_id" => $this->yearstudy_id,
+                    "classrooms_id" => $this->class_id,
+                    "status" => "1",
+                ]);
 
-        $ModelsStudent = ModelsStudent::create($validate);
-        if ($ModelsStudent) {
-            StudentClass::create([
-                "student_id" => $ModelsStudent->id,
-                "yearstudies_id" => $this->yearstudy_id,
-                "classrooms_id" => $this->class_id,
-                "status" => "1",
-            ]);
-
-
-
-
-
-
-            $this->first_name = "";
-            $this->last_name = "";
-            $this->birthday = "";
-            $this->ethnic = "";
-            $this->village_id = "";
-            $this->district_id = "";
-            $this->province_id = "";
-            $this->mother = "";
-            $this->m_phone = "";
-            $this->m_occupation = "";
-            $this->father = "";
-            $this->f_phone = "";
-            $this->f_occupation = "";
-            $this->js('alertSuccess()');
+                $this->first_name = "";
+                $this->last_name = "";
+                $this->birthday = "";
+                $this->ethnic = "";
+                $this->village_id = "";
+                $this->district_id = "";
+                $this->province_id = "";
+                $this->mother = "";
+                $this->m_phone = "";
+                $this->m_occupation = "";
+                $this->father = "";
+                $this->f_phone = "";
+                $this->f_occupation = "";
+                $this->js('alertSuccess()');
+            } else {
+                $this->js('alertError()');
+            }
+        }
+    }
+    public function deleteStudent()
+    {
+        $student = ModelsStudent::find($this->isId);
+        if ($student) {
+            $student->delete();
+            $studentClass = StudentClass::where('student_id', $this->isId)->first();
+            if ($studentClass) {
+                $studentClass->delete();
+            }
+            $this->isId = false;
+            $this->js('alertDelete()');
         } else {
             $this->js('alertError()');
         }
@@ -169,6 +209,19 @@ class Student extends Component
 
     public function onModalShow()
     {
+        $this->first_name = "";
+        $this->last_name = "";
+        $this->birthday = "";
+        $this->ethnic = "";
+        $this->village_id = "";
+        $this->district_id = "";
+        $this->province_id = "";
+        $this->mother = "";
+        $this->m_phone = "";
+        $this->m_occupation = "";
+        $this->father = "";
+        $this->f_phone = "";
+        $this->f_occupation = "";
         $this->js("modalShow()");
     }
     public function onModalClose()
@@ -182,5 +235,41 @@ class Student extends Component
     public function onModalCloseSearch()
     {
         $this->js("modalcloseSearch()");
+    }
+    public function onModalEdit($id)
+    {
+        $student = ModelsStudent::find($id);
+        if ($student) {
+            $this->isIdStudent = $student->id;
+            $this->first_name = $student->first_name;
+            $this->last_name = $student->last_name;
+            $this->birthday = $student->birthday;
+            $this->ethnic = $student->ethnic;
+            $this->province_id = $student->province_id;
+            $this->district = District::where('province_id', $student->province_id)->get();
+            if ($student->district_id) {
+                $this->village = Village::where('district_id',  $student->district_id)->get();
+                $this->district_id = $student->district_id;
+            } else {
+                $this->village = [];
+            }
+            if ($student->village_id) {
+                $this->village_id = $student->village_id;
+            } else {
+                $this->village_id = null;
+            }
+            $this->mother = $student->mother;
+            $this->m_phone = $student->m_phone;
+            $this->m_occupation = $student->m_occupation;
+            $this->father = $student->father;
+            $this->f_phone = $student->f_phone;
+            $this->f_occupation = $student->f_occupation;
+            $this->mother = $student->mother;
+            $this->m_phone = $student->m_phone;
+            $this->m_occupation = $student->m_occupation;
+            $this->class_id = $student->studentclass->classrooms_id;
+            $this->yearstudy_id = $student->studentclass->yearstudies_id;
+        }
+        $this->js("modalShow()");
     }
 }

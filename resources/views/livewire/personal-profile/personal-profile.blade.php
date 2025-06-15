@@ -1,8 +1,6 @@
 <div>
     @include('livewire.personal-profile.modals.form')
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-
         <div class=" bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
             <a href="{{ route('students') }}">
                 <img class="rounded-t-lg w-[100%] " src="{{ asset('/assets/student.jpg') }}" alt="student" />
