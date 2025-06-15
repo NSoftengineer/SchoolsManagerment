@@ -62,18 +62,21 @@
 
 </head>
 
-<body>
+<body class="transition-colors duration-300">
     @include('components.layouts.nav')
     @include('components.layouts.slider')
     <div class="p-4 sm:ml-64">
         <div
             class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 mt-14">
+
             {{ $slot }}
         </div>
     </div>
 
     {{-- <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script> --}}
     <script src="{{ asset('tailwindcss/flowbite.min.js') }}"></script>
+    <script src="https://unpkg.com/flowbite@latest/dist/darkmode.js"></script>
+
 
     <script>
         function alertSuccess() {

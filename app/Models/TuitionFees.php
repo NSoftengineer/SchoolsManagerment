@@ -23,18 +23,26 @@ class TuitionFees extends Model
 
     public function student()
     {
-        return $this->hasOne(Student::class, 'id', 'student_id');
+        return $this->hasOne(Student::class, 'id', 'student_id')->with('studentclass');
     }
-    public function yearstudy() {}
-    public function classroom() {}
-    // public function student(){
-
-    // }
+    public function yearstudy()
+    {
+        return $this->hasOne(yearstudy::class, 'id', 'yearstudy_id');
+    }
+    public function classroom()
+    {
+        return $this->hasOne(Classroom::class, 'id', 'classroom_id')->with('floorstudy');
+    }
+    public function items()
+    {
+        return $this->hasMany(ListItem::class, 'tuition_id', 'id');
+    }
 
 
     protected $appends = [
         'type_payment_label',
-        'type_payment'
+        'type_payment',
+        'items_sum_price',
     ];
 
     public function getTypePaymentLabelAttribute()
@@ -43,8 +51,11 @@ class TuitionFees extends Model
     }
     public function getTypePaymentAttribute()
     {
-        // // 0:ເດື່ອນ ຕໍ່ ເດືອນ, 1:ພາກຮຽນ I, 2:ພາກຮຽນ II, 3:ພາກຮຽນ I ແລະ ພາກຮຽນ II
         return $this->payment_of == 0 ? 'ເດື່ອນ' : ($this->payment_of == 1 ? 'ພາກຮຽນ I' : ($this->payment_of == 2 ? 'ພາກຮຽນ II' : 'ພາກຮຽນ I ແລະ ພາກຮຽນ II'));
-        // return $this->payment_of == 0 ? 'ເດື່ອນ' : 'ssss';
+    }
+
+    public function getItemsSumPriceAttribute()
+    {
+        return $this->items()->sum('total_amout');
     }
 }

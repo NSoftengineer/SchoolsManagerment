@@ -12,7 +12,7 @@ class RegisterStudentPrint extends Component
 
     public function render()
     {
-        $this->infomation = TuitionFees::with('student')->first();
+        $this->infomation = TuitionFees::with(['student', 'classroom', 'yearstudy', 'items'])->where('invoice', $this->invoice)->first();
         return view('livewire.income.components.register-student-print')->layout('components.layouts.print');
     }
 }

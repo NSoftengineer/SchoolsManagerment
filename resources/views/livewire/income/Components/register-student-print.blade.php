@@ -26,11 +26,15 @@
                         <tbody>
                             <tr>
                                 <th class="px-6 py-1 border border-gray-900 text-gray-900">ນັກຮຽນ</th>
-                                <td class="px-6 py-1 border border-gray-900 text-gray-900">xxx</td>
+                                <td class="px-6 py-1 border border-gray-900 text-gray-900">
+                                    {{ $infomation->student->first_name }} {{ $infomation->student->last_name }}
+                                </td>
                             </tr>
                             <tr class="bg-white">
                                 <th class="px-6 py-1 border border-gray-900 text-gray-900">ຊັ້ນຮຽນ</th>
-                                <td class="px-6 py-1 border border-gray-900 text-gray-900">25</td>
+                                <td class="px-6 py-1 border border-gray-900 text-gray-900">
+                                    {{ $infomation->classroom->floorstudy->name }}
+                                </td>
                             </tr>
                             <tr class="bg-white">
                                 <th class="px-6 py-1 border border-gray-900 text-gray-900">ໃບບີນ</th>
@@ -38,7 +42,9 @@
                             </tr>
                             <tr class="bg-white">
                                 <th class="px-6 py-1 border border-gray-900 text-gray-900">ວັນທີ</th>
-                                <td class="px-6 py-1 border border-gray-900 text-gray-900">25</td>
+                                <td class="px-6 py-1 border border-gray-900 text-gray-900">
+                                    {{ Carbon\carbon::parse($infomation->created_at)->format('d/m/Y ') }}
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -51,11 +57,15 @@
                             <tbody>
                                 <tr>
                                     <th class="px-6 py-1 border border-gray-900 text-gray-900">ສົກຮຽນ</th>
-                                    <td class="px-6 py-1 border border-gray-900">xxx</td>
+                                    <td class="px-6 py-1 border border-gray-900">
+                                        {{ $infomation->yearstudy->name }}
+                                    </td>
                                 </tr>
                                 <tr class="bg-white">
                                     <th class="px-6 py-1 border border-gray-900 text-gray-900">ຫ້ອງຮຽນ</th>
-                                    <td class="px-6 py-1 border border-gray-900 text-gray-900">25</td>
+                                    <td class="px-6 py-1 border border-gray-900 text-gray-900">
+                                        {{ $infomation->classroom->name }}
+                                    </td>
                                 </tr>
                                 <tr class="bg-white">
                                     <th class="px-6 py-1 border border-gray-900 text-gray-900">ຄ່າຮຽນ ເດືອນ/ພາກ</th>
@@ -88,41 +98,46 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="bg-white">
-                                    <td class="px-6 py-1 border border-gray-900 text-gray-900">ຫ້ອງຮຽນ</td>
-                                    <td class="px-6 py-1 border border-gray-900 text-gray-900">25</td>
-                                    <th class="px-6 py-1 border border-gray-900">xxx</th>
-                                    <th class="px-6 py-1 border border-gray-900">xxx</th>
-                                    <th class="px-6 py-1 border border-gray-900">xxx</th>
-                                </tr>
-                                <tr class="bg-white">
-                                    <td class="px-6 py-1 border border-gray-900 text-gray-900">ຄ່າຮຽນເດືອນ</td>
-                                    <td class="px-6 py-1 border border-gray-900 text-gray-900">25</td>
-                                    <th class="px-6 py-1 border border-gray-900">xxx</th>
-                                    <th class="px-6 py-1 border border-gray-900">xxx</th>
-                                    <th class="px-6 py-1 border border-gray-900">xxx</th>
-                                </tr>
-                                <tr class="bg-white">
-                                    <td class="px-6 py-1 border border-gray-900 text-gray-900">ການຈ່າຍ</td>
-                                    <td class="px-6 py-1 border border-gray-900 text-gray-900">25</td>
-                                    <th class="px-6 py-1 border border-gray-900">xxx</th>
-                                    <th class="px-6 py-1 border border-gray-900">xxx</th>
-                                    <th class="px-6 py-1 border border-gray-900">xxx</th>
-                                </tr>
+                                @foreach ($infomation->items as $key => $value)
+                                    <tr class="bg-white">
+                                        <td class="px-6 py-1 border border-gray-900 text-gray-900 text-center">
+                                            {{ $key + 1 }}
+                                        </td>
+                                        <td class="px-6 py-1 border border-gray-900 text-gray-900">
+                                            {{ $value->items_title }}</td>
+                                        <th class="px-6 py-1 border border-gray-900 text-center">
+                                            {{ $value->amount }}
+                                        </th>
+                                        <th class="px-6 py-1 border border-gray-900 text-end">
+                                            {{ number_format($value->amount_per_unit) }}
+                                        </th>
+                                        <th class="px-6 py-1 border border-gray-900 text-end">
+                                            {{ number_format($value->total_amout) }}
+                                        </th>
+                                    </tr>
+                                @endforeach
+
                                 <tr class="bg-white">
                                     <td class="px-6 py-1 border border-gray-900 text-gray-900" colspan="4">
                                         ລວມເປັນເງິນ</td>
-                                    <th class="px-6 py-1 border border-gray-900">xxx</th>
+                                    <th class="px-6 py-1 border border-gray-900 text-end">
+                                        {{ number_format($infomation->receive_amount) }}
+                                    </th>
                                 </tr>
                                 <tr class="bg-white">
                                     <td class="px-6 py-1 border border-gray-900 text-gray-900" colspan="4">
-                                        ລວມຈ່າຍເປັນເງິນທັງໝົດ</td>
-                                    <th class="px-6 py-1 border border-gray-900">xxx</th>
+                                        ລວມຈ່າຍເປັນເງິນທັງໝົດ
+                                    </td>
+                                    <th class="px-6 py-1 border border-gray-900 text-end">
+                                        {{ number_format($infomation->return_amount) }}
+                                    </th>
                                 </tr>
                                 <tr class="bg-white">
                                     <td class="px-6 py-1 border border-gray-900 text-gray-900" colspan="4">
                                         ຍອດຄົງເຫຼືອ</td>
-                                    <th class="px-6 py-1 border border-gray-900">xxx</th>
+                                    <th class="px-6 py-1 border border-gray-900 text-end">
+                                        {{ number_format($infomation->over_amount) }}
+                                    </th>
                                 </tr>
                                 <tr class="bg-white">
                                     <td class="px-6 py-1 border border-gray-900 text-gray-900" colspan="5">
@@ -145,9 +160,9 @@
                     <div class="pt-10">..........................................................</div>
                 </div>
             </div>
-            <div>
-                {{-- {{ $infomation }} --}}
-            </div>
+            {{-- <div>
+                {{ $infomation->items }}
+            </div> --}}
         </div>
         <div class="pb-5"></div>
     </center>

@@ -70,14 +70,6 @@ class RegisterStudent extends Component
                 ];
             }
         }
-        // $unPriceprice = Itemforregister::whereIn('id', $this->unseleted)->get();
-        // foreach ($unPriceprice as $key => $value) {
-        //     $this->unseletedprice += $value->price;
-        // }
-        // $this->ItemstudentTotal = $this->ItemstudentTotal - $this->unseletedprice;
-
-
-        // dd($this->unseleted);
     }
     public function plus($targetId)
     {
@@ -105,41 +97,49 @@ class RegisterStudent extends Component
     }
     public function selectdataclass()
     {
-        $this->Itemstudent = [];
-        if ($this->selectedClass != "") {
-            $this->student = Student::with('studentclass')->whereHas('studentclass', function ($query) {
-                $query->where('classrooms_id', $this->selectedClass);
-            })->get();
+        try {
+            $this->Itemstudent = [];
+            if ($this->selectedClass != "") {
+                $this->student = Student::with('studentclass')->whereHas('studentclass', function ($query) {
+                    $query->where('classrooms_id', $this->selectedClass);
+                })->get();
 
-            foreach ($this->student as $key => $value) {
-                $this->Itemstudent[] = [
-                    "id" => "0",
-                    "name" => "ຄ່າລົງທະບຽນຮຽນ {$value->studentclass->classroom->name}",
-                    "items" => 1,
-                    "price" => $value->studentclass->studycost->price,
-                    "priceTotal" => $value->studentclass->studycost->price,
-                    "type" => 0,
-                    "disabled" => "disabled",
-                ];
+                if (count($this->student) > 0) {
+                    foreach ($this->student as $key => $value) {
+                        $this->Itemstudent[] = [
+                            "id" => "0",
+                            "name" => "ຄ່າລົງທະບຽນຮຽນ {$value->studentclass->classroom->name}",
+                            "items" => 1,
+                            "price" => $value->studentclass->studycost->price,
+                            "priceTotal" => $value->studentclass->studycost->price,
+                            "type" => 0,
+                            "disabled" => "disabled",
+                        ];
+                    }
+
+                    $this->item = coststudy::with('groupitem')->where('classrooms_id', $this->selectedClass)->firstOrFail();
+                    $this->price = 0;
+                    $this->discountprice = 0;
+
+                    foreach ($this->item->groupitem->items as $key => $value) {
+                        $this->Itemstudent[] = [
+                            "id" => $value->id,
+                            "name" => $value->name,
+                            "items" => 1,
+                            "price" => $value->price,
+                            "priceTotal" => $value->price,
+                            "type" => $value->type_items,
+                            "disabled" =>  $value->type_items == 1 ? "disabled" : '',
+                        ];
+                    }
+                } else {
+                    $this->js("alertErrorStudent('ບໍ່ພົບຂໍ້ມູນໃນຫ້ອງນີ້')");
+                }
             }
-
-            $this->item = coststudy::with('groupitem')->where('classrooms_id', $this->selectedClass)->firstOrFail();
-            $this->price = 0;
-            $this->discountprice = 0;
-
-            foreach ($this->item->groupitem->items as $key => $value) {
-                $this->Itemstudent[] = [
-                    "id" => $value->id,
-                    "name" => $value->name,
-                    "items" => 1,
-                    "price" => $value->price,
-                    "priceTotal" => $value->price,
-                    "type" => $value->type_items,
-                    "disabled" =>  $value->type_items == 1 ? "disabled" : '',
-                ];
-            }
+            $this->countPrice();
+        } catch (\Throwable $th) {
+            $this->js("alertErrorStudent('ບໍ່ພົບຂໍ້ມູນໃນຫ້ອງນີ້')");
         }
-        $this->countPrice();
     }
 
     public function countPrice()
@@ -185,45 +185,51 @@ class RegisterStudent extends Component
 
     public function paymentSave()
     {
-        // Get the current date in the Laos timezone
-        $currentDate = Carbon::now('Asia/Vientiane')->toDateString();
 
-        // Count how many parcels have been created today
-        $parcelCountToday = TuitionFees::whereDate('created_at', $currentDate)->count() + 1;
-        // Generate the 3-digit increment for the current day
-        $increment = str_pad($parcelCountToday, 3, '0', STR_PAD_LEFT);
-        // Generate the tracking number including seconds and the increment
-        $invoice = 'LKCN-' . Carbon::now('Asia/Vientiane')->format('ymd') . '-' . $increment;
+        $count = TuitionFees::where('student_id', $this->student_id)->where('yearstudy_id', $this->yearstudies_id)->where('classroom_id', $this->classroom_id)->count();
+        if ($count == 0) {
+            // Get the current date in the Laos timezone
+            $currentDate = Carbon::now('Asia/Vientiane')->toDateString();
 
-        $payment = TuitionFees::create([
-            'userid' => Auth::id(),
-            'invoice' => $invoice,
-            'student_id' =>  $this->student_id,
-            'yearstudy_id' => $this->yearstudies_id,
-            'classroom_id' => $this->classroom_id,
-            'receive_amount' => $this->ItemstudentTotal,
-            'return_amount' => "0",
-            'over_amount' => "0",
-            'payment' => $this->payment,
-            'payment_of' => $this->payment_of,
-            'month' => "09"
-        ]);
-        if ($payment) {
-            foreach ($this->ItemstudentForInsert as &$item) {
-                ListItem::create([
-                    'userid'        => Auth::id(),
-                    'tuition_id'    => $payment->id,
-                    'items_id'      => $item['id'],
-                    'items_title'   => $item['name'],
-                    'amount'        => $item['items'],
-                    'amount_per_unit' => $item['price'],
-                    'total_amout'   => $item['priceTotal'],
-                    'type'          => $item['type'],
-                ]);
+            // Count how many parcels have been created today
+            $parcelCountToday = TuitionFees::whereDate('created_at', $currentDate)->count() + 1;
+            // Generate the 3-digit increment for the current day
+            $increment = str_pad($parcelCountToday, 3, '0', STR_PAD_LEFT);
+            // Generate the tracking number including seconds and the increment
+            $invoice = 'LKCN-' . Carbon::now('Asia/Vientiane')->format('ymd') . '-' . $increment;
+
+            $payment = TuitionFees::create([
+                'userid' => Auth::id(),
+                'invoice' => $invoice,
+                'student_id' =>  $this->student_id,
+                'yearstudy_id' => $this->yearstudies_id,
+                'classroom_id' => $this->classroom_id,
+                'receive_amount' => $this->ItemstudentTotal,
+                'return_amount' => "0",
+                'over_amount' => "0",
+                'payment' => $this->payment,
+                'payment_of' => $this->payment_of,
+                'month' => "09"
+            ]);
+            if ($payment) {
+                foreach ($this->ItemstudentForInsert as &$item) {
+                    ListItem::create([
+                        'userid'        => Auth::id(),
+                        'tuition_id'    => $payment->id,
+                        'items_id'      => $item['id'],
+                        'items_title'   => $item['name'],
+                        'amount'        => $item['items'],
+                        'amount_per_unit' => $item['price'],
+                        'total_amout'   => $item['priceTotal'],
+                        'type'          => $item['type'],
+                    ]);
+                }
             }
+            $this->js('alertSuccess()');
+            $this->dispatch('printbill', $invoice);
+        } else {
+            $this->js("alertErrorStudent('ໄດ້ລົງທະບຽນນັກຮຽນຜູ້ນີ້ແລ້ວ')");
         }
-        $this->js('alertSuccess()');
-        $this->dispatch('printbill', $invoice);
     }
 
     public function clickaaa()

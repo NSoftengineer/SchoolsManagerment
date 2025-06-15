@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+    darkMode: 'class', // required for manual toggle
     content: [
         "./resources/**/*.blade.php",
         "./resources/**/*.js",
@@ -13,6 +14,7 @@ export default {
     plugins: [
         require('flowbite/plugin')
     ],
+
 
 }
 

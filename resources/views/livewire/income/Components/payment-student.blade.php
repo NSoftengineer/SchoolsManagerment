@@ -5,13 +5,12 @@
         <div class="grid grid-cols-1 gap-4">
             <div>
                 <form class="flex items-center mx-auto">
-                    <select id="countries"
+                    <select id="selectClass" wire:model="selectedClass" wire:change="selectdataclass"
                         class=" me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option selected>ເລືອກຫ້ອງຮຽນ</option>
-                        <option value="US">United States</option>
-                        <option value="CA">Canada</option>
-                        <option value="FR">France</option>
-                        <option value="DE">Germany</option>
+                        @foreach ($selectClass as $key => $value)
+                            <option value="{{ $value->id }}">{{ $value->name }}</option>
+                        @endforeach
                     </select>
 
                     <label for="simple-search" class="sr-only">Search</label>
@@ -62,33 +61,50 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                                <th scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    ທ້າວ ບຸນຄ້ຳ ບຸນຍືນ
-                                </th>
-                                <td class="px-6 py-4">
-                                    ປ 5/2
-                                </td>
-                                <td class="px-6 py-4">
-                                    <select id="small"
-                                        class="block py-2.5 px-2 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">
-                                        <option selected>ເລືອກການຈ່າຍ</option>
-                                        <option value="US">ພາກຮຽນ I</option>
-                                        <option value="CA">ພາກຮຽນ II</option>
-                                        <option value="FR">ເດື່ອນ ຕໍ່ ເດືອນ</option>
-                                    </select>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center  ">
-                                        <input id="default-checkbox_all" type="checkbox" value=""
-                                            wire:click="clickbbb()"
-                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                        <label for="default-checkbox_all"
-                                            class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"></label>
-                                    </div>
-                                </td>
-                            </tr>
+                            @foreach ($student as $key => $value)
+                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                                    <th scope="row"
+                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {{ $value->first_name }} {{ $value->last_name }}
+                                    </th>
+                                    <td class="px-6 py-4">
+                                        {{ $value->studentclass->classroom->name }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        @if ($value->tuitionfees != null)
+                                            <select id="small" wire:model.live="payment_of"
+                                                wire:change="selectStudent('{{ $value->id }}')"
+                                                class="block py-2.5 px-2 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">
+                                                <option selected>ເລືອກການຈ່າຍ</option>
+                                                @if ($value->tuitionfees->payment_of == 0)
+                                                    <option value="0">ເດື່ອນ ຕໍ່ ເດືອນ</option>
+                                                @endif
+                                                @if ($value->tuitionfees->payment_of == 1)
+                                                    <option value="2">ພາກຮຽນ II</option>
+                                                @endif
+                                                @if ($value->tuitionfees->payment_of == 2)
+                                                    <option value="3">ພາກຮຽນ II ແລະ ພາກຮຽນ II</option>
+                                                @endif
+                                            </select>
+                                        @endif
+
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center  ">
+                                            @if ($value->studentclass->studycost != null)
+                                                <input id="default-{{ $value->id }}" type="checkbox"
+                                                    {{ $payment_of == '' ? 'disabled' : '' }}
+                                                    value="{{ $value->id }}"
+                                                    wire:click="selectStuden('{{ $value->id }}','{{ $value->studentclass->classroom->id }}','{{ $value->studentclass->studycost->yearstudies_id }}','{{ $value->studentclass->classroom->floorstudy->id }}')"
+                                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                                <label for="default-{{ $value->id }}"
+                                                    class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"></label>
+                                            @endif
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
 
                         </tbody>
                     </table>
@@ -103,122 +119,38 @@
             <div
                 class="p-3 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 mb-2">
                 <div class="grid grid-cols-2 gap-4">
-                    <div>
+                    <div
+                        class="bg-green-100 text-green-800 text-xs font-medium me-2 px-3 py-2 rounded-sm dark:bg-green-900 dark:text-green-300">
+                        <h5 class="mb-1 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+                            ຈ່າຍແລ້ວ: {{ number_format($studycost_sum) }}
+                        </h5>
+                    </div>
+                    <div
+                        class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-3 py-2 rounded-sm dark:bg-blue-900 dark:text-blue-300">
+                        <h5 class="mb-1 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+                            ຕ້ອງການຈ່າຍ: {{ number_format($cost) }}
+                        </h5>
+                    </div>
+                    <div class="col-span-2">
                         <button type="button" wire:click="onModalShowFormPaymentStudent()"
                             class="cursor-pointer w-[100%] px-3 py-2 text-xl font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                             ຈ່າຍຄ່າເທີ່ມ
                         </button>
                     </div>
-                    <div
-                        class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-3 py-2 rounded-sm dark:bg-blue-900 dark:text-blue-300">
-                        <h5 class="mb-1 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-                            ທີ່ຕ້ອງຈ່າຍ: 1,500,000 ₭
-                        </h5>
-                    </div>
-                    <div
-                        class="bg-green-100 text-green-800 text-xs font-medium me-2 px-3 py-2 rounded-sm dark:bg-green-900 dark:text-green-300">
-                        <h5 class="mb-1 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-                            ຈ່າຍແລ້ວ: 1,500,000 ₭
-                        </h5>
-                    </div>
-                    <div
+                    {{-- <div
                         class="bg-purple-100 text-purple-800 text-xs font-medium me-2 px-3 py-2 rounded-sm dark:bg-purple-900 dark:text-purple-300">
                         <h5 class="mb-1 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
                             ຍອດທີ່ເຫຼືອ: 1,500,000 ₭
                         </h5>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
 
-            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <thead class="text-xs text-white uppercase bg-[#20518d] dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                        <th scope="col" class="text-base px-6 py-3 rounded-tl-lg">
-                            ຄ່າຮຽນ
-                        </th>
-                        <th scope="col" class="text-base px-6 py-3">
-                            ເດືອນ/ປິ
-                        </th>
-                        <th scope="col" class="text-base px-6 py-3">
-
-                        </th>
-                        <th scope="col" class="text-base px-6 py-3 rounded-tr-lg">
-                            <div class="flex items-center mb-4">
-                                <input id="default-checkbox_all" type="checkbox" value="" wire:click="clickbbb()"
-                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                <label for="default-checkbox_all"
-                                    class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"></label>
-                            </div>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for ($i = 8; $i < 12; $i++)
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                            <th scope="row"
-                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                1,500,000
-                            </th>
-                            <td class="px-6 py-4">
-                                @php $months = $i + 1;  @endphp
-                                @if ($months < 10)
-                                    0{{ $months }}
-                                @else
-                                    {{ $months }}
-                                @endif
-                                / 2025
-                            </td>
-                            <td class="px-6 py-4">
-                                @if ($months == 9)
-                                    <span
-                                        class="bg-purple-100 text-purple-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-purple-900 dark:text-purple-300">ເປີດຮຽນໃໝ່</span>
-                                @endif
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="flex items-center mb-4">
-                                    <input id="default-checkbox_{{ $i }}" type="checkbox"
-                                        {{ $months == 9 ? 'checked' : '' }} value=""
-                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                    <label for="default-checkbox_{{ $i }}"
-                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"></label>
-                                </div>
-                            </td>
-                        </tr>
-                    @endfor
-                    @for ($ii = 0; $ii < 8; $ii++)
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                            <th scope="row"
-                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                1,500,000
-                            </th>
-                            <td class="px-6 py-4">
-                                @php $months_2 = $ii + 1;  @endphp
-                                @if ($months_2 < 10)
-                                    0{{ $months_2 }}
-                                @else
-                                    {{ $months_2 }}
-                                @endif
-                                / 2026
-                            </td>
-                            <td class="px-6 py-4">
-                                @if ($months == 9)
-                                    <span
-                                        class="bg-purple-100 text-purple-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-purple-900 dark:text-purple-300">ເປີດຮຽນໃໝ່</span>
-                                @endif
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="flex items-center mb-4">
-                                    <input id="default-checkbox_{{ $ii }}" type="checkbox" value=""
-                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                    <label for="default-checkbox_{{ $ii }}"
-                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"></label>
-                                </div>
-                            </td>
-                        </tr>
-                    @endfor
-                </tbody>
-
-            </table>
+            @if ($payment_of == 2)
+                @include('livewire.income.Components.per-years')
+            @else
+                @include('livewire.income.Components.per-month')
+            @endif
         </div>
 
     </div>

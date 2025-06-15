@@ -69,33 +69,41 @@
                                         {{ $value->studentclass->classroom->name }}
                                     </td>
                                     <td class="px-6 py-4">
-                                        <select id="small" wire:model.live="payment_of"
-                                            class="block py-2.5 px-2 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">
-                                            <option selected>ເລືອກການຈ່າຍ</option>
-                                            @if ($value->studentclass->studycost->type_payment == 0)
-                                                <option value="0">ເດື່ອນ ຕໍ່ ເດືອນ</option>
-                                            @endif
-                                            @if ($value->studentclass->studycost->type_payment == 1)
-                                                <option value="1">ພາກຮຽນ I</option>
-                                                <option value="2">ພາກຮຽນ II</option>
-                                                <option value="3">ພາກຮຽນ I ແລະ ພາກຮຽນ II</option>
-                                            @endif
-                                            @if ($value->studentclass->studycost->type_payment == 2)
-                                                <option value="0">ເດື່ອນ ຕໍ່ ເດືອນ</option>
-                                                <option value="1">ພາກຮຽນ I</option>
-                                                <option value="2">ພາກຮຽນ II</option>
-                                                <option value="3">ພາກຮຽນ I ແລະ ພາກຮຽນ II</option>
-                                            @endif
-                                        </select>
+                                        @if ($value->studentclass->studycost != null)
+                                            <select id="small" wire:model.live="payment_of"
+                                                class="block py-2.5 px-2 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">
+                                                <option selected>ເລືອກການຈ່າຍ</option>
+                                                @if ($value->studentclass->studycost->type_payment == 0)
+                                                    <option value="0">ເດື່ອນ ຕໍ່ ເດືອນ</option>
+                                                @endif
+                                                @if ($value->studentclass->studycost->type_payment == 1)
+                                                    <option value="1">ພາກຮຽນ I</option>
+                                                    <option value="2">ພາກຮຽນ II</option>
+                                                    <option value="3">ພາກຮຽນ I ແລະ ພາກຮຽນ II</option>
+                                                @endif
+                                                @if ($value->studentclass->studycost->type_payment == 2)
+                                                    <option value="0">ເດື່ອນ ຕໍ່ ເດືອນ</option>
+                                                    <option value="1">ພາກຮຽນ I</option>
+                                                    <option value="2">ພາກຮຽນ II</option>
+                                                    <option value="3">ພາກຮຽນ I ແລະ ພາກຮຽນ II</option>
+                                                @endif
+                                            </select>
+                                        @else
+                                        @endif
+
                                     </td>
                                     <td class="px-6 py-4">
                                         <div class="flex items-center  ">
-                                            <input id="default-{{ $value->id }}" type="checkbox"
-                                                {{ $payment_of == '' ? 'disabled' : '' }} value="{{ $value->id }}"
-                                                wire:click="selectStuden('{{ $value->id }}','{{ $value->studentclass->classroom->id }}','{{ $value->studentclass->studycost->yearstudies_id }}','{{ $value->studentclass->classroom->floorstudy->id }}')"
-                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                            <label for="default-{{ $value->id }}"
-                                                class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"></label>
+                                            @if ($value->studentclass->studycost != null)
+                                                <input id="default-{{ $value->id }}" type="checkbox"
+                                                    {{ $payment_of == '' ? 'disabled' : '' }}
+                                                    value="{{ $value->id }}"
+                                                    wire:click="selectStuden('{{ $value->id }}','{{ $value->studentclass->classroom->id }}','{{ $value->studentclass->studycost->yearstudies_id }}','{{ $value->studentclass->classroom->floorstudy->id }}')"
+                                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                                <label for="default-{{ $value->id }}"
+                                                    class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"></label>
+                                            @endif
+
                                         </div>
                                     </td>
                                 </tr>
@@ -277,6 +285,15 @@
         window.open(`http://127.0.0.1:8000/income/students-print/${invoice}`, '_blank')
         location.reload();
     });
+
+    function alertErrorStudent(texts) {
+        Swal.fire({
+            title: 'ບໍ່ພົບຂໍ້ມູນ',
+            text: texts,
+            icon: 'error',
+            confirmButtonText: 'OK'
+        })
+    }
 
     function modalShowFormRegisterStudent() {
         const $targetEl = document.getElementById('form_register_student');

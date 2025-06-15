@@ -28,4 +28,8 @@ class Student extends Model
     {
         return $this->hasOne(StudentClass::class, 'student_id', 'id')->with(['classroom', 'studycost']);
     }
+    public function tuitionfees()
+    {
+        return $this->hasOne(TuitionFees::class, 'student_id', 'id')->with(['yearstudy', 'classroom', 'items']);
+    }
 }
