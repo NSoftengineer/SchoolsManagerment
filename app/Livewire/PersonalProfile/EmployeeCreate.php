@@ -181,7 +181,6 @@ class EmployeeCreate extends Component
             'institution_name'   => $this->institution_name,
             'country'   => $this->country,
             'years'  => $this->years,
-            'year_name'  => Yearstudy::find($this->years)->name,
             'details'   => $this->details,
         ];
         $this->js('alertUpSuccess()');
@@ -205,7 +204,6 @@ class EmployeeCreate extends Component
             'teaching_room_name'  => Classroom::find($this->teaching_room)->name,
             'teaching'   => $this->teaching,
             'teaching_years'   => $this->teaching_years,
-            'teaching_years_name'  => Yearstudy::find($this->teaching_years)->name,
             'teaching_at'   => $this->teaching_at,
         ];
         // dd($this->teach_history);
@@ -227,7 +225,7 @@ class EmployeeCreate extends Component
             'phones'    => ['required', 'string'],
             'weight'   => ['required', 'integer'],
             'height'   => ['required', 'integer'],
-            'clothes_size'   => ['required', 'integer'],
+            'clothes_size'   => ['required', 'string'],
             'province'   => ['required', 'integer'],
             'district'   => ['required', 'integer'],
             'village'   => ['required', 'integer'],
@@ -235,15 +233,19 @@ class EmployeeCreate extends Component
         $validate2 = $this->validate([
             'position'    => ['required', 'string'],
             'salary'    => ['required', 'string'],
-            'date_start'    => ['required', 'date'],
-            'date_end'    => ['required', 'date'],
         ]);
         // dd($validate2);
+        if (!$this->date_start) {
+            $this->date_start = null;
+        }
+        if (!$this->date_end) {
+            $this->date_end = null;
+        }
 
         $employeeData = Employee::create($validate);
 
         if ($employeeData) {
-            TeachingCurrent::create($validate2 + ['employee_id' => $employeeData->id]);
+            TeachingCurrent::create($validate2 + ['employee_id' => $employeeData->id, 'date_start' => $this->date_start, 'date_end' => $this->date_end]);
             foreach ($this->teach_history as $teach) {
                 TeachingHistory::create($teach + ['employee_id' => $employeeData->id]);
             }
@@ -298,7 +300,7 @@ class EmployeeCreate extends Component
             'phones'    => ['required', 'string'],
             'weight'   => ['required', 'integer'],
             'height'   => ['required', 'integer'],
-            'clothes_size'   => ['required', 'integer'],
+            'clothes_size'   => ['required', 'string'],
             'province'   => ['required', 'integer'],
             'district'   => ['required', 'integer'],
             'village'   => ['required', 'integer'],
@@ -306,11 +308,15 @@ class EmployeeCreate extends Component
         $validate2 = $this->validate([
             'position'    => ['required', 'string'],
             'salary'    => ['required', 'string'],
-            'date_start'    => ['required', 'date'],
-            'date_end'    => ['required', 'date'],
         ]);
+        if (!$this->date_start) {
+            $this->date_start = null;
+        }
+        if (!$this->date_end) {
+            $this->date_end = null;
+        }
         $employ = Employee::where('id', $this->id)->update($validate);
-        TeachingCurrent::where('employee_id', $this->id)->update($validate2);
+        TeachingCurrent::where('employee_id', $this->id)->update($validate2 + ['date_start' => $this->date_start, 'date_end' => $this->date_end]);
         if ($employ) {
             $this->js('alertUpSuccess()');
         } else {
