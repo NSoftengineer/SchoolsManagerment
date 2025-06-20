@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('teaching_histories', function (Blueprint $table) {
             $table->id();
+            $table->integer('employee_id');
             $table->string('teaching_room');
             $table->string('teaching');
             $table->string('teaching_years');

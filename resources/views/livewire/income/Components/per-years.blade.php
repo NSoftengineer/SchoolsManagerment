@@ -11,24 +11,14 @@
 
             </th>
             <th scope="col" class="text-base px-6 py-3 rounded-tr-lg">
-                {{-- <div class="flex items-center mb-4">
-                    <input id="default-checkbox_all" type="checkbox" value="" wire:click="clickbbb()"
-                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                    <label for="default-checkbox_all"
-                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"></label>
-                </div> --}}
             </th>
         </tr>
     </thead>
     <tbody>
-        {{-- @php $studycost = 0; @endphp
-        @php $numb = 0; @endphp --}}
-        @foreach ($TuitionFees as $key => $value)
-            {{-- @php $numb = $key+1; @endphp --}}
+        @if ($TuitionFees != '')
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{-- @php $studycost = $value->student->studentclass->studycost->price; @endphp --}}
-                    {{ number_format($value->student->studentclass->studycost->price) }}
+                    {{ $TuitionFees != '' ? number_format($TuitionFees->midterm) : '' }}
                 </th>
                 <td class="px-6 py-4">
                     ພາກຮຽນ I
@@ -45,25 +35,21 @@
                     </div>
                 </td>
             </tr>
-        @endforeach
-
-        @if ($numb == 1)
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ number_format($studycost) }}
+                    {{ $TuitionFees != '' ? ($TuitionFees->final != '' ? number_format($TuitionFees->final) : number_format($TuitionFees->midterm)) : '' }}
                 </th>
                 <td class="px-6 py-4">
                     ພາກຮຽນ II
                 </td>
-                <td class="px-6 py-4">
-                </td>
+                <td class="px-6 py-4"></td>
                 <td class="px-6 py-4">
                     <div class="flex items-center mb-4">
-                        <input id="default-checkbox_" type="checkbox" value=""
-                            wire:click="selectCost('{{ $studycost }}')"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="default-checkbox_"
-                            class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"></label>
+                        <input id="default-checkbox_" type="checkbox" wire:model.live="select_final"
+                            {{ $TuitionFees->final != '' ? 'disabled checked' : '' }}
+                            wire:click="selectCost('{{ $TuitionFees != '' ? $TuitionFees->midterm : '' }}')"
+                            class="w-4 h-4 text-{{ $TuitionFees->final != '' ? 'gray' : '' }}-600 bg-{{ $TuitionFees->final != '' ? 'gray' : '' }}-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+
                     </div>
                 </td>
             </tr>

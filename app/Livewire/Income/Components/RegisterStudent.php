@@ -6,6 +6,7 @@ use App\Models\Classroom;
 use App\Models\coststudy;
 use App\Models\Itemforregister;
 use App\Models\ListItem;
+use App\Models\Payment;
 use App\Models\Student;
 use App\Models\TuitionFees;
 use Carbon\Carbon;
@@ -26,6 +27,7 @@ class RegisterStudent extends Component
     public $Itemstudent = [];
     public $ItemstudentForInsert = [];
     public $ItemstudentTotal = 0;
+    public $ItemstudentTotalDiscount = 0;
     public $selectedStudent = [];
     public $payment_of;
     public $student_id;
@@ -33,6 +35,7 @@ class RegisterStudent extends Component
     public $yearstudies_id;
     public $floorstudy_id;
     public $payment = 1;
+    public $costStudent = 0;
 
 
     public function render()
@@ -52,12 +55,19 @@ class RegisterStudent extends Component
         } else {
             $this->unseleted[] = $id;
         }
-        $this->ItemstudentTotal = 0;
+        $ItemstudentTotal = 0;
+        $ItemstudentTotalDiscount = 0;
         $this->ItemstudentForInsert = [];
         foreach ($this->Itemstudent as &$item) {
             if (!in_array($item['id'], $this->unseleted)) {
+                // if ($item['type'] != 1) {
+                //     $this->ItemstudentTotal += $item['priceTotal'];
+                // }
                 if ($item['type'] != 1) {
-                    $this->ItemstudentTotal += $item['priceTotal'];
+                    $ItemstudentTotal += $item['priceTotal'];
+                }
+                if ($item['type'] == 1) {
+                    $ItemstudentTotalDiscount += $item['priceTotal'];
                 }
                 $this->ItemstudentForInsert[] = [
                     "id" => $item["id"],
@@ -70,6 +80,7 @@ class RegisterStudent extends Component
                 ];
             }
         }
+        $this->ItemstudentTotal = $ItemstudentTotal - $ItemstudentTotalDiscount;
     }
     public function plus($targetId)
     {
@@ -118,7 +129,7 @@ class RegisterStudent extends Component
                     }
 
                     $this->item = coststudy::with('groupitem')->where('classrooms_id', $this->selectedClass)->firstOrFail();
-                    $this->price = 0;
+                    $this->price = $this->item->price;
                     $this->discountprice = 0;
 
                     foreach ($this->item->groupitem->items as $key => $value) {
@@ -144,11 +155,15 @@ class RegisterStudent extends Component
 
     public function countPrice()
     {
-        $this->ItemstudentTotal = 0;
+        $ItemstudentTotal = 0;
+        $ItemstudentTotalDiscount = 0;
         $this->ItemstudentForInsert = [];
         foreach ($this->Itemstudent as &$item) {
             if ($item['type'] != 1) {
-                $this->ItemstudentTotal += $item['priceTotal'];
+                $ItemstudentTotal += $item['priceTotal'];
+            }
+            if ($item['type'] == 1) {
+                $ItemstudentTotalDiscount += $item['priceTotal'];
             }
             $this->ItemstudentForInsert[] = [
                 "id" => $item["id"],
@@ -160,6 +175,7 @@ class RegisterStudent extends Component
                 "disabled" => $item["disabled"]
             ];
         }
+        $this->ItemstudentTotal = $ItemstudentTotal - $ItemstudentTotalDiscount;
     }
 
     public function selectStuden($idStudent, $classroom_id, $yearstudies_id, $floorstudy_id)
@@ -192,7 +208,7 @@ class RegisterStudent extends Component
             $currentDate = Carbon::now('Asia/Vientiane')->toDateString();
 
             // Count how many parcels have been created today
-            $parcelCountToday = TuitionFees::whereDate('created_at', $currentDate)->count() + 1;
+            $parcelCountToday = Payment::whereDate('created_at', $currentDate)->count() + 1;
             // Generate the 3-digit increment for the current day
             $increment = str_pad($parcelCountToday, 3, '0', STR_PAD_LEFT);
             // Generate the tracking number including seconds and the increment
@@ -200,20 +216,37 @@ class RegisterStudent extends Component
 
             $payment = TuitionFees::create([
                 'userid' => Auth::id(),
-                'invoice' => $invoice,
                 'student_id' =>  $this->student_id,
                 'yearstudy_id' => $this->yearstudies_id,
                 'classroom_id' => $this->classroom_id,
-                'receive_amount' => $this->ItemstudentTotal,
-                'return_amount' => "0",
-                'over_amount' => "0",
                 'payment' => $this->payment,
                 'payment_of' => $this->payment_of,
-                'month' => "09"
+                'month' =>  $this->payment_of,
+                'midterm' => $this->payment_of == 1 ? $this->price : ($this->payment_of == 3 ? $this->price : null),
+                'final' => $this->payment_of == 2 ? $this->price : ($this->payment_of == 3 ? $this->price : null),
+                'september' => $this->payment_of == 0 ? $this->price : null,
+
             ]);
             if ($payment) {
+
+                Payment::create(
+                    [
+                        'invoice' => $invoice,
+                        'userid' => Auth::id(),
+                        'student_id' => $this->student_id,
+                        'yearstudy_id' => $this->yearstudies_id,
+                        'classroom_id' => $this->classroom_id,
+                        'tuition_id' => $payment->id,
+                        'month' => $this->payment_of,
+                        'receive_amount' => $this->ItemstudentTotal,
+                        'return_amount' => '0',
+                        'over_amount' => '0',
+                    ]
+                );
+
                 foreach ($this->ItemstudentForInsert as &$item) {
                     ListItem::create([
+                        'invoice' => $invoice,
                         'userid'        => Auth::id(),
                         'tuition_id'    => $payment->id,
                         'items_id'      => $item['id'],
@@ -222,11 +255,13 @@ class RegisterStudent extends Component
                         'amount_per_unit' => $item['price'],
                         'total_amout'   => $item['priceTotal'],
                         'type'          => $item['type'],
+                        'payment_of'    => $this->payment_of,
                     ]);
                 }
+
+                $this->js('alertSuccess()');
+                $this->dispatch('printbill', $invoice);
             }
-            $this->js('alertSuccess()');
-            $this->dispatch('printbill', $invoice);
         } else {
             $this->js("alertErrorStudent('ໄດ້ລົງທະບຽນນັກຮຽນຜູ້ນີ້ແລ້ວ')");
         }

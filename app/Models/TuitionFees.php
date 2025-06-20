@@ -3,21 +3,37 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TuitionFees extends Model
 {
+    use SoftDeletes;
     protected $fillable = [
         'userid',
-        'invoice',
+        // 'invoice',
         'student_id',
         'yearstudy_id',
         'classroom_id',
-        'receive_amount',
-        'return_amount',
-        'over_amount',
+        // 'receive_amount',
+        // 'return_amount',
+        // 'over_amount',
         'payment',
         'payment_of',
-        'month'
+        'month',
+        'midterm',
+        'final',
+        'january',
+        'february',
+        'march',
+        'april',
+        'may',
+        'june',
+        'july',
+        'august',
+        'september',
+        'october',
+        'november',
+        'december',
     ];
 
 
@@ -37,6 +53,8 @@ class TuitionFees extends Model
     {
         return $this->hasMany(ListItem::class, 'tuition_id', 'id');
     }
+
+
 
 
     protected $appends = [

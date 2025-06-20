@@ -70,13 +70,13 @@
                                 <tr class="bg-white">
                                     <th class="px-6 py-1 border border-gray-900 text-gray-900">ຄ່າຮຽນ ເດືອນ/ພາກ</th>
                                     <td class="px-6 py-1 border border-gray-900 text-gray-900">
-                                        {{ $infomation->type_payment }}
+                                        {{ $infomation->tuitionfees->type_payment }}
                                     </td>
                                 </tr>
                                 <tr class="bg-white">
                                     <th class="px-6 py-1 border border-gray-900 text-gray-900">ການຈ່າຍ</th>
                                     <td class="px-6 py-1 border border-gray-900 text-gray-900">
-                                        {{ $infomation->type_payment_label }}
+                                        {{ $infomation->tuitionfees->type_payment_label }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -98,7 +98,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($infomation->items as $key => $value)
+                                @foreach ($items as $key => $value)
                                     <tr class="bg-white">
                                         <td class="px-6 py-1 border border-gray-900 text-gray-900 text-center">
                                             {{ $key + 1 }}

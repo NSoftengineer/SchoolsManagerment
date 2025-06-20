@@ -2,7 +2,7 @@
     class=" hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-3xl max-h-full ">
         <!-- Modal content -->
-        <form wire:submit="createUser">
+        <form wire:submit="saveCost">
             <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700 border-2 border-solid border-[#20518d]">
                 <!-- Modal header -->
                 <div
@@ -27,44 +27,36 @@
                         <div class="md:col-span-2">
                             <h5
                                 class="text-center mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                                ຮັບເງິນການຈ່າຍຄ່າເທີ່ມ
+                                ຮັບເງິນການເສຍຄ່າເທີ່ມ
                             </h5>
                         </div>
+                        <div class="md:col-span-2">
+                            <div
+                                class="text-center mb-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                ຈຳນວນທີ່ຕ້ອງຈ່າຍ: {{ number_format($cost) }}
+                            </div>
+                        </div>
                         <div class="flex items-center ps-4 border border-gray-200 rounded-sm dark:border-gray-700">
-                            <input id="bordered-radio-1" type="radio" value="" name="bordered-radio"
+                            <input id="payment-1" type="radio" value="2" name="payment" wire:model.live="payment"
                                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="bordered-radio-1"
+                            <label for="payment-1"
                                 class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                 ຮັບເງີນສົດ
                             </label>
                         </div>
                         <div class="flex items-center ps-4 border border-gray-200 rounded-sm dark:border-gray-700">
-                            <input checked id="bordered-radio-2" type="radio" value="" name="bordered-radio"
+                            <input checked id="payment-2" type="radio" value="1" name="payment"
+                                wire:model.live="payment"
                                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="bordered-radio-2"
+                            <label for="payment-2"
                                 class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                 ຮັບເງີນໂອນ
                             </label>
                         </div>
-                        <div class="mb-6 md:col-span-2">
-                            <label for="large-input"
-                                class="text-2xl block mb-2 font-medium text-gray-900 dark:text-white">
-                                ຈຳນວນທີ່ຮັບເງິນ
-                            </label>
-                            <input type="text" id="large-input"
-                                class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        </div>
-                        {{-- <div class="mb-6 md:col-span-2">
-                            <label for="large-input"
-                                class="text-2xl block mb-2 font-medium text-gray-900 dark:text-white">
-                                ຈຳນວນເງິນທີ່ທອນຄືນ
-                            </label>
-                            <input type="text" id="large-input" readonly
-                                class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        </div> --}}
                     </div>
 
                 </div>
+
 
                 <!-- Modal footer -->
                 <div

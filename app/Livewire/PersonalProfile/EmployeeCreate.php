@@ -239,8 +239,10 @@ class EmployeeCreate extends Component
             'date_end'    => ['required', 'date'],
         ]);
         // dd($validate2);
-
-        $employeeData = Employee::create($validate);
+        //
+        $employeeData = Employee::create(array_merge($validate, [
+            'active' => 1
+        ]));
 
         if ($employeeData) {
             TeachingCurrent::create($validate2 + ['employee_id' => $employeeData->id]);

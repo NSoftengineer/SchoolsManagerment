@@ -25,7 +25,7 @@
                 <!-- Modal body -->
                 <div class="p-4 md:p-5 space-y-4">
                     <div class="grid grid-cols-1 gap-4">
-                        <div>
+                        {{-- <div>
                             <label for="name"
                                 class="text-base block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 ສົກຮຽນ
@@ -40,7 +40,55 @@
                                     </p>
                                 @enderror
                             </div>
+                        </div> --}}
+                        <div>
+                            <label for="name"
+                                class="text-base block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                ສົກຮຽນ
+                            </label>
+                            <div class="flex">
+                                <input type="text" id="website-admin"
+                                    class="rounded-none rounded-s-md bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                <span
+                                    class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border  border-gray-300 border-e-0  dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                                    ຫາ
+                                </span>
+                                <input type="text" id="website-admin"
+                                    class="rounded-none rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    @error('name')
+                                        <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                                            {{ $message }}
+                                        </p>
+                                    @enderror
+                                </div>
+                                <div>
+                                    @error('name')
+                                        <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                                            {{ $message }}
+                                        </p>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
+                        {{-- <div>
+                            <label for="name"
+                                class="text-base block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                ປິຮຽນ
+                            </label>
+                            <input type="text" id="name" wire:model="name"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                required />
+                            <div>
+                                @error('name')
+                                    <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                                        {{ $message }}
+                                    </p>
+                                @enderror
+                            </div>
+                        </div> --}}
 
                     </div>
                 </div>

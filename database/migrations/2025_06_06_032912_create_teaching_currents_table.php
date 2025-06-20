@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('teaching_currents', function (Blueprint $table) {
             $table->id();
+            $table->integer('employee_id');
             $table->string('position');
             $table->string('salary');
             $table->date('date_start');

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->float('amount_per_unit', 13, 2);
             $table->float('total_amout', 13, 2);
             $table->integer('type');
+            $table->integer('payment_of');
             $table->softDeletes();
             $table->timestamps();
         });

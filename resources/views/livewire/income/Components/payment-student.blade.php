@@ -83,7 +83,7 @@
                                                     <option value="2">ພາກຮຽນ II</option>
                                                 @endif
                                                 @if ($value->tuitionfees->payment_of == 2)
-                                                    <option value="3">ພາກຮຽນ II ແລະ ພາກຮຽນ II</option>
+                                                    <option value="3">ພາກຮຽນ I ແລະ ພາກຮຽນ II</option>
                                                 @endif
                                             </select>
                                         @endif
@@ -129,33 +129,49 @@
                         class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-3 py-2 rounded-sm dark:bg-blue-900 dark:text-blue-300">
                         <h5 class="mb-1 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
                             ຕ້ອງການຈ່າຍ: {{ number_format($cost) }}
+                            {{-- {{ print_r($arr_month) }} --}}
                         </h5>
                     </div>
                     <div class="col-span-2">
-                        <button type="button" wire:click="onModalShowFormPaymentStudent()"
-                            class="cursor-pointer w-[100%] px-3 py-2 text-xl font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <button type="button" {{ $cost > 0 ? '' : 'disabled' }}
+                            wire:click="onModalShowFormPaymentStudent()"
+                            class="cursor-pointer w-[100%] px-3 py-2 text-xl font-medium text-center text-white bg-{{ $cost > 0 ? 'blue' : 'gray' }}-700 rounded-lg hover:bg-{{ $cost > 0 ? 'blue' : 'gray' }}-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                             ຈ່າຍຄ່າເທີ່ມ
                         </button>
                     </div>
-                    {{-- <div
-                        class="bg-purple-100 text-purple-800 text-xs font-medium me-2 px-3 py-2 rounded-sm dark:bg-purple-900 dark:text-purple-300">
-                        <h5 class="mb-1 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-                            ຍອດທີ່ເຫຼືອ: 1,500,000 ₭
-                        </h5>
-                    </div> --}}
                 </div>
             </div>
 
-            @if ($payment_of == 2)
+
+            @if ($payment_of == 2 || $payment_of == 3)
                 @include('livewire.income.Components.per-years')
-            @else
+            @elseif ($payment_of == 0)
                 @include('livewire.income.Components.per-month')
+            @else
+                {{-- ຍັງບໍ່ພົບຂໍ້ມູນ --}}
             @endif
         </div>
 
     </div>
 </div>
 <script>
+    // window.addEventListener('printbill', event => {
+    //     console.log(event.detail[0]);
+    //     var invoice = event.detail[0];
+    //     var url = "{{ url('/') }}";
+    //     window.open(`${url}/income/students-print/${invoice}`, '_blank')
+    //     location.reload();
+    // });
+
+    function alertErrorStudent(texts) {
+        Swal.fire({
+            title: 'ບໍ່ພົບຂໍ້ມູນ',
+            text: texts,
+            icon: 'error',
+            confirmButtonText: 'OK'
+        })
+    }
+
     function modalShowFormPaymentStudent() {
         const $targetEl = document.getElementById('form_payment_student');
         const modal = new Modal($targetEl);

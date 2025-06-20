@@ -133,7 +133,7 @@
             {{ $yearstudies_id }}
             {{ $floorstudy_id }} --}}
         </button>
-        <button {{ $student_id == '' ? 'disabled' : '' }} type="button" wire:click="studentsprint"
+        {{-- <button {{ $student_id == '' ? 'disabled' : '' }} type="button" wire:click="studentsprint"
             class="cursor-pointer px-5 py-2.5 text-sm font-medium text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
             <svg class="w-6 h-6 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                 width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
@@ -142,7 +142,7 @@
                     clip-rule="evenodd" />
             </svg>
             ພິມໃບບີນໃໝ່
-        </button>
+        </button> --}}
 
         <table class="my-4 w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-white uppercase bg-[#20518d] dark:bg-gray-700 dark:text-gray-400">
@@ -282,7 +282,8 @@
     window.addEventListener('printbill', event => {
         console.log(event.detail[0]);
         var invoice = event.detail[0];
-        window.open(`http://127.0.0.1:8000/income/students-print/${invoice}`, '_blank')
+        var url = "{{ url('/') }}";
+        window.open(`${url}/income/students-print/${invoice}`, '_blank')
         location.reload();
     });
 
