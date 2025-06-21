@@ -2,6 +2,7 @@
 
 namespace App\Livewire\RolePermissions;
 
+use App\Models\Typeexpenses;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -20,8 +21,10 @@ class RolePermission extends Component
     {
         $this->permissionData = Permission::all();
         $this->title_role = Role::with('permissions')->get();
-
-        return view('livewire.role-permissions.role-permission');
+        $type_expenses = Typeexpenses::all();
+        return view('livewire.role-permissions.role-permission')->layout('components.layouts.app', [
+            'type_expenses' => $type_expenses
+        ]);
     }
 
     public function changeEvent()

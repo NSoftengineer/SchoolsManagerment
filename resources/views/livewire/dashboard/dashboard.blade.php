@@ -1,5 +1,5 @@
 <div>
-    Knowing others is intelligence; knowing yourself is true wisdom.
+    {{-- Knowing others is intelligence; knowing yourself is true wisdom. --}}
     {{-- {{ Auth::user()->getAllPermissions() }} --}}
     {{-- <h1>{{ Auth::user()->removeRole('dashboard') }}</h1> --}}
     {{-- <h1>{{ Auth::user()->givePermissionTo('user') }}</h1> --}}

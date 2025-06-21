@@ -60,8 +60,10 @@ class Expenses extends Component
             ->whereBetween('created_at', [$date_str, $date_end])
             ->get();
 
-
-        return view('livewire.expenses.expenses');
+        $type_expenses = Typeexpenses::all();
+        return view('livewire.expenses.expenses')->layout('components.layouts.app', [
+            'type_expenses' => $type_expenses
+        ]);
     }
 
     public function search()

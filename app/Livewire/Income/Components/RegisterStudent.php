@@ -36,6 +36,7 @@ class RegisterStudent extends Component
     public $floorstudy_id;
     public $payment = 1;
     public $costStudent = 0;
+    public $searchstuden = "";
 
 
     public function render()
@@ -110,42 +111,58 @@ class RegisterStudent extends Component
     {
         try {
             $this->Itemstudent = [];
-            if ($this->selectedClass != "") {
-                $this->student = Student::with('studentclass')->whereHas('studentclass', function ($query) {
-                    $query->where('classrooms_id', $this->selectedClass);
-                })->get();
+            if ($this->selectedClass != "" || $this->searchstuden != "") {
+                $studentData = Student::with('studentclass');
 
-                if (count($this->student) > 0) {
-                    foreach ($this->student as $key => $value) {
-                        $this->Itemstudent[] = [
-                            "id" => "0",
-                            "name" => "ຄ່າລົງທະບຽນຮຽນ {$value->studentclass->classroom->name}",
-                            "items" => 1,
-                            "price" => $value->studentclass->studycost->price,
-                            "priceTotal" => $value->studentclass->studycost->price,
-                            "type" => 0,
-                            "disabled" => "disabled",
-                        ];
-                    }
+                // $studentData->whereHas('studentclass', function ($query) {
+                //     $query->where('status', 1);
+                // });
 
-                    $this->item = coststudy::with('groupitem')->where('classrooms_id', $this->selectedClass)->firstOrFail();
-                    $this->price = $this->item->price;
-                    $this->discountprice = 0;
 
-                    foreach ($this->item->groupitem->items as $key => $value) {
-                        $this->Itemstudent[] = [
-                            "id" => $value->id,
-                            "name" => $value->name,
-                            "items" => 1,
-                            "price" => $value->price,
-                            "priceTotal" => $value->price,
-                            "type" => $value->type_items,
-                            "disabled" =>  $value->type_items == 1 ? "disabled" : '',
-                        ];
-                    }
-                } else {
-                    $this->js("alertErrorStudent('ບໍ່ພົບຂໍ້ມູນໃນຫ້ອງນີ້')");
+                if ($this->selectedClass != "") {
+                    $studentData->whereHas('studentclass', function ($query) {
+                        $query->Where('classrooms_id', $this->selectedClass)->where('status', 1);;
+                    });
                 }
+
+                if ($this->searchstuden != "") {
+                    $studentData->WhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ['%' . $this->searchstuden . '%']);
+                }
+
+                $this->student = $studentData->get();
+
+
+                // if (count($this->student) > 0) {
+                //     foreach ($this->student as $key => $value) {
+                //         $this->Itemstudent[] = [
+                //             "id" => "0",
+                //             "name" => "ຄ່າລົງທະບຽນຮຽນ {$value->studentclass->classroom->name}",
+                //             "items" => 1,
+                //             "price" => $value->studentclass->studycost->price,
+                //             "priceTotal" => $value->studentclass->studycost->price,
+                //             "type" => 0,
+                //             "disabled" => "disabled",
+                //         ];
+                //     }
+
+                //     $this->item = coststudy::with('groupitem')->where('classrooms_id', $this->selectedClass)->firstOrFail();
+                //     $this->price = $this->item->price;
+                //     $this->discountprice = 0;
+
+                //     foreach ($this->item->groupitem->items as $key => $value) {
+                //         $this->Itemstudent[] = [
+                //             "id" => $value->id,
+                //             "name" => $value->name,
+                //             "items" => 1,
+                //             "price" => $value->price,
+                //             "priceTotal" => $value->price,
+                //             "type" => $value->type_items,
+                //             "disabled" =>  $value->type_items == 1 ? "disabled" : '',
+                //         ];
+                //     }
+                // } else {
+                //     $this->js("alertErrorStudent('ບໍ່ພົບຂໍ້ມູນໃນຫ້ອງນີ້')");
+                // }
             }
             $this->countPrice();
         } catch (\Throwable $th) {
@@ -186,6 +203,46 @@ class RegisterStudent extends Component
             $this->classroom_id = $classroom_id;
             $this->yearstudies_id = $yearstudies_id;
             $this->floorstudy_id = $floorstudy_id;
+
+
+
+            if ($this->classroom_id > 0) {
+                $this->Itemstudent  = [];
+                $studentData = Student::with('studentclass')->whereHas('studentclass', function ($query) {
+                    $query->Where('classrooms_id', $this->classroom_id);
+                })->get();
+
+
+                foreach ($studentData as $key => $value) {
+                    $this->Itemstudent[] = [
+                        "id" => "0",
+                        "name" => "ຄ່າລົງທະບຽນຮຽນ {$value->studentclass->classroom->name}",
+                        "items" => 1,
+                        "price" => $value->studentclass->studycost->price,
+                        "priceTotal" => $value->studentclass->studycost->price,
+                        "type" => 0,
+                        "disabled" => "disabled",
+                    ];
+                }
+
+                $this->item = coststudy::with('groupitem')->where('classrooms_id', $this->classroom_id)->firstOrFail();
+                $this->price = $this->item->price;
+                $this->discountprice = 0;
+
+                foreach ($this->item->groupitem->items as $key => $value) {
+                    $this->Itemstudent[] = [
+                        "id" => $value->id,
+                        "name" => $value->name,
+                        "items" => 1,
+                        "price" => $value->price,
+                        "priceTotal" => $value->price,
+                        "type" => $value->type_items,
+                        "disabled" =>  $value->type_items == 1 ? "disabled" : '',
+                    ];
+                }
+            } else {
+                $this->js("alertErrorStudent('ບໍ່ພົບຂໍ້ມູນໃນຫ້ອງນີ້')");
+            }
         } else {
             $this->js("alert('not found')");
         }

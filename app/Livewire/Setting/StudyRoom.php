@@ -4,6 +4,7 @@ namespace App\Livewire\Setting;
 
 use App\Models\Classroom;
 use App\Models\Floorstudy;
+use App\Models\Typeexpenses;
 use Livewire\Component;
 
 class StudyRoom extends Component
@@ -19,7 +20,11 @@ class StudyRoom extends Component
     {
         $this->ClassroomData = Classroom::with('floorstudy')->get();
         $this->floorstudiesData = Floorstudy::all();
-        return view('livewire.setting.study-room');
+
+        $type_expenses = Typeexpenses::all();
+        return view('livewire.setting.study-room')->layout('components.layouts.app', [
+            'type_expenses' => $type_expenses
+        ]);
     }
 
     public function onModalShow($id = false)

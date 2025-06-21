@@ -10,12 +10,15 @@ use App\Models\Floorstudy;
 use App\Models\Province;
 use App\Models\TeachingCurrent;
 use App\Models\TeachingHistory;
+use App\Models\Typeexpenses;
 use App\Models\Village;
 use App\Models\Yearstudy;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class EmployeeCreate extends Component
 {
+    use WithFileUploads;
     protected $listeners = [
         'EducationDelete' => 'deleteEducation',
         'HistoryDelete' => 'deleteHistory',
@@ -112,6 +115,9 @@ class EmployeeCreate extends Component
     public $date_start;
     public $date_end;
 
+    public $photo;
+    public $show_photo;
+
     public function mount()
     {
         $this->id = request()->route('id', 0);
@@ -133,6 +139,7 @@ class EmployeeCreate extends Component
                 $this->phones = $employee->phones;
                 $this->weight = $employee->weight;
                 $this->height = $employee->height;
+                $this->show_photo = $employee->img;
                 $this->clothes_size = $employee->clothes_size;
                 $this->province = $employee->province;
                 $this->districts = District::where('province_id', $employee->province)->get();
@@ -148,10 +155,13 @@ class EmployeeCreate extends Component
                 $this->date_end = $teachingCurrent->date_end;
             }
             $this->teach_history = TeachingHistory::with(['yearstudy', 'teachingRoom'])->where('employee_id', $this->id)->get();
-            $this->edu_level = Educational::with(['yearstudy', 'floor'])->where('employee_id', $this->id)->get();
+            $this->edu_level = Educational::with(['yearstudy'])->where('employee_id', $this->id)->get();
             // dd($this->teach_history);
         }
-        return view('livewire.personal-profile.employee-create');
+        $type_expenses = Typeexpenses::all();
+        return view('livewire.personal-profile.employee-create')->layout('components.layouts.app', [
+            'type_expenses' => $type_expenses
+        ]);
     }
     public function getDistrict($provinceId)
     {
@@ -177,7 +187,7 @@ class EmployeeCreate extends Component
         ]);
         $this->edu_level[] = [
             'education_level'  => $this->education_level,
-            'education_name'  => Floorstudy::find($this->education_level)->name,
+            'education_name'  => $this->education_level,
             'institution_name'   => $this->institution_name,
             'country'   => $this->country,
             'years'  => $this->years,
@@ -242,9 +252,10 @@ class EmployeeCreate extends Component
             $this->date_end = null;
         }
 
-        $employeeData = Employee::create($validate);
+        $employeeData = Employee::create(array_merge($validate, ['active' => 1]));
 
         if ($employeeData) {
+
             TeachingCurrent::create($validate2 + ['employee_id' => $employeeData->id, 'date_start' => $this->date_start, 'date_end' => $this->date_end]);
             foreach ($this->teach_history as $teach) {
                 TeachingHistory::create($teach + ['employee_id' => $employeeData->id]);
@@ -252,7 +263,14 @@ class EmployeeCreate extends Component
             foreach ($this->edu_level as $edu) {
                 Educational::create($edu + ['employee_id' => $employeeData->id]);
             }
+            if ($this->photo != "") {
+                // $name = $ModelsStudent->id . '_' . uniqid() . '_' . $this->photo->getClientOriginalName();
+                $name = $employeeData->id . '_' . uniqid() . '_' . $this->photo->hashName();
+                $uploaded = $this->photo->storeAs('/employees', $name, 'local_public');
+                Employee::find($employeeData->id)->update(['img' => $uploaded]);
+            }
             $this->js('alertSuccess()');
+            $this->js('reload_success()');
         } else {
             $this->js('alertError()');
             return;
@@ -315,7 +333,15 @@ class EmployeeCreate extends Component
         if (!$this->date_end) {
             $this->date_end = null;
         }
-        $employ = Employee::where('id', $this->id)->update($validate);
+
+        $data_photo = [];
+
+        if ($this->photo != "") {
+            $name = $this->id . '_' . uniqid() . '_' . $this->photo->hashName();
+            $uploaded = $this->photo->storeAs('/employees', $name, 'local_public');
+            $data_photo['img'] = $uploaded;
+        }
+        $employ = Employee::where('id', $this->id)->update(array_merge($validate, $data_photo));
         TeachingCurrent::where('employee_id', $this->id)->update($validate2 + ['date_start' => $this->date_start, 'date_end' => $this->date_end]);
         if ($employ) {
             $this->js('alertUpSuccess()');

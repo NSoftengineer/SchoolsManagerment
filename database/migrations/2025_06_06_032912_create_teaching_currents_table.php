@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('position');
             $table->string('salary');
             $table->date('date_start');
-            $table->date('date_end');
+            $table->date('date_end')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -174,8 +174,13 @@
                         @foreach ($employees as $value)
                             <tr>
                                 <td class="text-base px-6 py-3">
-                                    <img class="h-20 max-w-xs" src="{{ asset('assets/logo.jpg') }}"
-                                        alt="image description">
+                                    @if ($value->img != null)
+                                        <img class="h-20 max-w-xs" src="{{ asset('doc_upload/' . $value->img) }}"
+                                            alt="image">
+                                    @else
+                                        <img class="h-20 max-w-xs" src="{{ asset('assets/default.png') }}"
+                                            alt="image">
+                                    @endif
                                 </td>
                                 <td class="text-base px-6 py-3">
                                     {{ $value->full_name }}

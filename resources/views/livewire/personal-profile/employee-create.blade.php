@@ -48,9 +48,47 @@
                 </nav>
             </div>
             <div class="col-span-2 md:col-span-4">
+                <p class="text-2xl font-black dark:text-white">ຮູບພາບ </p>
+                <hr class="h-px my-2 bg-black border-0 dark:bg-gray-700">
+            </div>
+            <div class="col-span-2 md:col-span-4">
+                @if ($photo)
+                    <img src="{{ $photo->temporaryUrl() }}" class="h-[120px] max-w-full rounded-lg ">
+                @else
+                    <img src="{{ $show_photo == '' ? asset('assets/default.png') : asset('doc_upload/' . $show_photo) }}"
+                        class="h-[120px] max-w-full rounded-lg ">
+                @endif
+
+            </div>
+            <div class="col-span-2 md:col-span-2">
+                {{-- <div class="md:col-span-3"> --}}
+                <div class="flex items-center justify-center w-full">
+                    <label for="dropzone-file"
+                        class="flex flex-col items-center justify-center w-full h-25 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                            <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                            </svg>
+                            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click
+                                    to upload</span></p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">
+                                SVG, PNG, JPG or GIF (MAX. 800x400px)
+                            </p>
+                        </div>
+                        <input id="dropzone-file" type="file" class="hidden" wire:model="photo" />
+                    </label>
+                </div>
+
+                @error('photo')
+                    <span class="error">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="col-span-2 md:col-span-4">
                 <p class="text-2xl font-black dark:text-white">ຂໍ້ມູນທົວໄປ </p>
                 <hr class="h-px my-2 bg-black border-0 dark:bg-gray-700">
-
             </div>
             <div>
                 <label for="full_name" class="text-base block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -246,7 +284,7 @@
             <div class="col-span-2 md:col-span-4">
                 <div class="relative overflow-x-auto">
                     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-white uppercase bg-[#20518d] dark:bg-gray-700 dark:text-white">
+                        <thead class="text-xs text-black uppercase bg-[#f2f2f2] dark:bg-gray-700 dark:text-white">
                             <tr>
                                 <th scope="col" class="text-base px-6 py-3 rounded-tl-lg">
                                     ລະດັບການສຶກສາ
@@ -266,7 +304,7 @@
                                 <th scope="col" class="text-center text-base px-6 py-3 rounded-tr-lg">
                                     @if ($id == 0 || $update != null)
                                         <button type="button" wire:click="onModalShow"
-                                            class="focus:outline-none text-white bg-purple-400 hover:bg-purple-500 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-3 py-2.5 me-2 mb-2 dark:focus:ring-purple-900">
+                                            class="focus:outline-none text-white bg-blue-400 hover:bg-blue-500 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2.5 me-2 mb-2 dark:focus:ring-blue-900">
                                             ເພີ່ມ
                                         </button>
                                     @endif
@@ -316,7 +354,7 @@
                                         class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
                                         <th scope="row"
                                             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            {{ $value->floor->name }}
+                                            {{ $value->education_level }}
                                         </th>
                                         <td class="px-6 py-4">
                                             {{ $value->institution_name }}
@@ -361,7 +399,7 @@
             <div class="col-span-2 md:col-span-4">
                 <div class="relative overflow-x-auto">
                     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-white uppercase bg-[#20518d] dark:bg-[#20518d] dark:text-white">
+                        <thead class="text-xs text-black uppercase bg-[#f2f2f2] dark:bg-[#f2f2f2] dark:text-white">
                             <tr>
                                 <th scope="col" class="text-base px-6 py-3 rounded-tl-lg">
                                     ຫ້ອງທີ່ສອນ
@@ -378,7 +416,7 @@
                                 <th scope="col" class="text-center text-base px-6 py-3 rounded-tr-lg">
                                     @if ($id == 0 || $update != null)
                                         <button type="button" wire:click="onModalShowHistory"
-                                            class="focus:outline-none text-white bg-purple-400 hover:bg-purple-500 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-3 py-2.5 me-2 mb-2 dark:focus:ring-purple-900">
+                                            class="focus:outline-none text-white bg-blue-400 hover:bg-blue-500 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2.5 me-2 mb-2 dark:focus:ring-blue-900">
                                             ເພີ່ມ
                                         </button>
                                     @endif
@@ -527,7 +565,7 @@
         @if ($id == 0 || $update != null)
             <center>
                 <button type="submit"
-                    class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                    class="text-white w-100 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                     ບັນທືກ
                 </button>
             </center>
@@ -536,6 +574,11 @@
     </form>
 </div>
 <script>
+    function reload_success() {
+        window.location.reload();
+
+    }
+
     function modalShow() {
         const $targetEl = document.getElementById('form_level_edu');
         const modal = new Modal($targetEl);

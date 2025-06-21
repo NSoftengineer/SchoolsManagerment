@@ -47,25 +47,25 @@
                                 ສົກຮຽນ
                             </label>
                             <div class="flex">
-                                <input type="text" id="website-admin"
+                                <input type="text" id="year_start" wire:model="year_start"
                                     class="rounded-none rounded-s-md bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <span
                                     class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border  border-gray-300 border-e-0  dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
                                     ຫາ
                                 </span>
-                                <input type="text" id="website-admin"
+                                <input type="text" id="year_end" wire:model="year_end"
                                     class="rounded-none rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             </div>
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
-                                    @error('name')
+                                    @error('year_start')
                                         <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                                             {{ $message }}
                                         </p>
                                     @enderror
                                 </div>
                                 <div>
-                                    @error('name')
+                                    @error('year_end')
                                         <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                                             {{ $message }}
                                         </p>

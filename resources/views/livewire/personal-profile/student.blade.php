@@ -92,6 +92,9 @@
                             <th scope="col" class="text-base px-6 py-3">
                                 ອາຊີບ
                             </th>
+                            <th scope="col" class="text-base px-6 py-3">
+                                ທີ່ຢູ່ປະຈຸບັນ
+                            </th>
                             <th scope="col" class="text-base px-6 py-3 rounded-tr-lg">
 
                             </th>
@@ -167,6 +170,11 @@
                                     class="block w-[100px] p-2 text-gray-900 border border-gray-300  bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
                             </td>
+                            <td class="text-base px-6 py-3">
+                                <input type="text" id="small-input" placeholder="ຄົ້ນຫາ"
+                                    class="block w-[100px] p-2 text-gray-900 border border-gray-300  bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+
+                            </td>
                             <td class="text-base px-6 py-3 rounded-br-lg">
 
                             </td>
@@ -176,8 +184,14 @@
                         @foreach ($studentData as $key => $value)
                             <tr>
                                 <td class="text-base px-6 py-3">
-                                    <img class="h-20 max-w-xs" src="{{ asset('assets/logo.jpg') }}"
-                                        alt="image description">
+                                    @if ($value->img != null)
+                                        <img class="h-20 max-w-xs" src="{{ asset('doc_upload/' . $value->img) }}"
+                                            alt="image">
+                                    @else
+                                        <img class="h-20 max-w-xs" src="{{ asset('assets/default.png') }}"
+                                            alt="image">
+                                    @endif
+
                                 </td>
                                 <td class="text-base px-6 py-3">
                                     {{ $value->first_name }} {{ $value->last_name }}
@@ -217,6 +231,9 @@
                                 </td>
                                 <td class="text-base px-6 py-3">
                                     {{ $value->m_occupation }}
+                                </td>
+                                <td class="text-base px-6 py-3">
+                                    {{ $value->address }}
                                 </td>
                                 <td class="text-base px-6 py-3">
                                     <button type="button" wire:click="onModalEdit({{ $value->id }})"

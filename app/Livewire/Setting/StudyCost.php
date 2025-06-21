@@ -5,6 +5,7 @@ namespace App\Livewire\Setting;
 use App\Models\Classroom;
 use App\Models\coststudy;
 use App\Models\Groupitem;
+use App\Models\Typeexpenses;
 use App\Models\Yearstudy;
 use Livewire\Component;
 
@@ -28,7 +29,10 @@ class StudyCost extends Component
         $this->Yearstudy = Yearstudy::all();
         $this->GroupItem = Groupitem::all();
         $this->studyCostData = coststudy::with('classroom', 'yearstudy', 'groupitem')->get();
-        return view('livewire.setting.study-cost');
+        $type_expenses = Typeexpenses::all();
+        return view('livewire.setting.study-cost')->layout('components.layouts.app', [
+            'type_expenses' => $type_expenses
+        ]);;
     }
     public function onModalShow($id = false)
     {

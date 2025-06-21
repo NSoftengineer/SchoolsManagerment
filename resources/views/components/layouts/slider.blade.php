@@ -40,7 +40,7 @@
 
 
             @if (Auth::user()->can('personalprofile'))
-                <li>
+                {{-- <li>
                     <button type="button"
                         class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                         aria-controls="personal-profile" data-collapse-toggle="personal-profile">
@@ -72,6 +72,42 @@
                             </a>
                         </li>
                     </ul>
+                </li> --}}
+
+                <li>
+                    <a href="{{ route('students') }}"
+                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <svg class="w-[25px] h-[25px] text-gray-800 dark:text-white" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path
+                                d="M12.4472 2.10557c-.2815-.14076-.6129-.14076-.8944 0L5.90482 4.92956l.37762.11119c.01131.00333.02257.00687.03376.0106L12 6.94594l5.6808-1.89361.3927-.13363-5.6263-2.81313ZM5 10V6.74803l.70053.20628L7 7.38747V10c0 .5523-.44772 1-1 1s-1-.4477-1-1Zm3-1c0-.42413.06601-.83285.18832-1.21643l3.49538 1.16514c.2053.06842.4272.06842.6325 0l3.4955-1.16514C15.934 8.16715 16 8.57587 16 9c0 2.2091-1.7909 4-4 4-2.20914 0-4-1.7909-4-4Z" />
+                            <path
+                                d="M14.2996 13.2767c.2332-.2289.5636-.3294.8847-.2692C17.379 13.4191 19 15.4884 19 17.6488v2.1525c0 1.2289-1.0315 2.1428-2.2 2.1428H7.2c-1.16849 0-2.2-.9139-2.2-2.1428v-2.1525c0-2.1409 1.59079-4.1893 3.75163-4.6288.32214-.0655.65589.0315.89274.2595l2.34883 2.2606 2.3064-2.2634Z" />
+                        </svg>
+
+
+                        <span class="flex-1 ms-3 whitespace-nowrap">
+                            ນັກຮຽນ/ນັກສືກສາ
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('employees') }}"
+                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <svg class="w-[25px] h-[25px] text-gray-800 dark:text-white" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path fill-rule="evenodd"
+                                d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-4Z"
+                                clip-rule="evenodd" />
+                        </svg>
+
+
+                        <span class="flex-1 ms-3 whitespace-nowrap">
+                            ພະນັກງານ/ຄູ ແລະ ອາຈານ
+                        </span>
+                    </a>
                 </li>
 
                 {{-- <li>
@@ -93,6 +129,24 @@
 
             @if (Auth::user()->can('income'))
                 <li>
+                    <a href="{{ route('income.students') }}"
+                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <svg class="w-[25px] h-[25px] text-gray-800 dark:text-white" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path
+                                d="m6 10.5237-2.27075.6386C3.29797 11.2836 3 11.677 3 12.125V20c0 .5523.44772 1 1 1h2V10.5237Zm12 0 2.2707.6386c.4313.1213.7293.5147.7293.9627V20c0 .5523-.4477 1-1 1h-2V10.5237Z" />
+                            <path fill-rule="evenodd"
+                                d="M12.5547 3.16795c-.3359-.22393-.7735-.22393-1.1094 0l-6.00002 4c-.45952.30635-.5837.92722-.27735 1.38675.30636.45953.92723.5837 1.38675.27735L8 7.86853V21h8V7.86853l1.4453.96352c.0143.00957.0289.01873.0435.02746.1597.09514.3364.14076.5112.1406.3228-.0003.6395-.15664.832-.44541.3064-.45953.1822-1.0804-.2773-1.38675l-6-4ZM10 12c0-.5523.4477-1 1-1h2c.5523 0 1 .4477 1 1s-.4477 1-1 1h-2c-.5523 0-1-.4477-1-1Zm1-4c-.5523 0-1 .44772-1 1s.4477 1 1 1h2c.5523 0 1-.44772 1-1s-.4477-1-1-1h-2Z"
+                                clip-rule="evenodd" />
+                        </svg>
+
+                        <span class="flex-1 ms-3 whitespace-nowrap">
+                            ລົງທະບຽນຮຽນ/ຈ່າຍຄ່າຮຽນ
+                        </span>
+                    </a>
+                </li>
+                <li>
                     <button type="button"
                         class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                         aria-controls="income" data-collapse-toggle="income">
@@ -111,12 +165,12 @@
                         </svg>
                     </button>
                     <ul id="income" class="hidden py-2 space-y-2">
-                        <li>
+                        {{-- <li>
                             <a href="{{ route('income.students') }}"
                                 class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                                 ລົງທະບຽນຮຽນ/ຈ່າຍຄ່າຮຽນ
                             </a>
-                        </li>
+                        </li> --}}
                         <li>
                             <a href="{{ route('income.other') }}"
                                 class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
@@ -177,8 +231,8 @@
                         </svg>
                     </button>
                     <ul id="expenses" class="hidden py-2 space-y-2">
-                        @php $type_expenses = App\Models\TypeExpenses::all(); @endphp
-                        @if (count($type_expenses) > 0)
+                        {{-- @php $type_expenses = App\Models\TypeExpenses::all(); @endphp --}}
+                        {{-- @if (count($type_expenses) > 0)
                             @foreach ($type_expenses as $type)
                                 <li>
                                     <a href="{{ route('expenses', 'type=' . $type->id) }}"
@@ -194,19 +248,24 @@
                                     ບໍ່ມີຂໍໍ່ມູນ
                                 </a>
                             </li>
+                        @endif --}}
+                        @if ($type_expenses->isNotEmpty())
+                            @foreach ($type_expenses as $type)
+                                <li>
+                                    <a href="{{ route('expenses', ['type' => $type->id]) }}"
+                                        class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                                        {{ $type->name }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        @else
+                            <li>
+                                <a href="#"
+                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                                    ບໍ່ມີຂໍໍ່ມູນ
+                                </a>
+                            </li>
                         @endif
-                        {{-- <li>
-                            <a href="{{ route('income.students') }}"
-                                class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-                                ລົງທະບຽນຮຽນ/ຈ່າຍຄ່າຮຽນ
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('income.other') }}"
-                                class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-                                ອື່ນໆ
-                            </a>
-                        </li> --}}
                     </ul>
                 </li>
             @endif

@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('yearstudies', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('year_start');
+            $table->string('year_end');
             $table->softDeletes();
             $table->timestamps();
         });

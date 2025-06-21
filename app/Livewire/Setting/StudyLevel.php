@@ -3,6 +3,7 @@
 namespace App\Livewire\Setting;
 
 use App\Models\Floorstudy;
+use App\Models\Typeexpenses;
 use Livewire\Component;
 
 class StudyLevel extends Component
@@ -15,7 +16,10 @@ class StudyLevel extends Component
     public function render()
     {
         $this->FloorstudyData = Floorstudy::all();
-        return view('livewire.setting.study-level');
+         $type_expenses = Typeexpenses::all();
+        return view('livewire.setting.study-level')->layout('components.layouts.app', [
+            'type_expenses' => $type_expenses
+        ]);
     }
     public function onModalShow($id = false)
     {

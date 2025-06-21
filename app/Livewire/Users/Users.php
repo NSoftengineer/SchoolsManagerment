@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Users;
 
+use App\Models\Typeexpenses;
 use App\Models\User;
 use Livewire\Component;
 use Spatie\Permission\Models\Role;
@@ -20,7 +21,10 @@ class Users extends Component
     {
         $this->userData = User::has('roles')->get();
         $this->roleData = Role::all();
-        return view('livewire.users.users');
+        $type_expenses = Typeexpenses::all();
+        return view('livewire.users.users')->layout('components.layouts.app', [
+            'type_expenses' => $type_expenses
+        ]);
     }
 
     public function onModalShow()

@@ -2,8 +2,10 @@
 
 namespace App\Livewire\Setting;
 
+use App\Models\Typeexpenses;
 use App\Models\Typeincome as ModelsTypeincome;
 use Livewire\Component;
+
 
 class TypeIncome extends Component
 {
@@ -15,7 +17,10 @@ class TypeIncome extends Component
     public function render()
     {
         $this->TypeincomeData = ModelsTypeincome::all();
-        return view('livewire.setting.type-income');
+        $type_expenses = Typeexpenses::all();
+        return view('livewire.setting.type-income')->layout('components.layouts.app', [
+            'type_expenses' => $type_expenses
+        ]);
     }
     public function onModalShow($id = false)
     {

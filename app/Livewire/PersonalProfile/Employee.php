@@ -6,6 +6,7 @@ use App\Models\Educational;
 use App\Models\Employee as ModelsEmployee;
 use App\Models\TeachingCurrent;
 use App\Models\TeachingHistory;
+use App\Models\Typeexpenses;
 use Livewire\Component;
 
 class Employee extends Component
@@ -16,7 +17,10 @@ class Employee extends Component
     public function render()
     {
         $this->employees = ModelsEmployee::all();
-        return view('livewire.personal-profile.employee');
+        $type_expenses = Typeexpenses::all();
+        return view('livewire.personal-profile.employee')->layout('components.layouts.app', [
+            'type_expenses' => $type_expenses
+        ]);
     }
 
     public function DeleteEmployee()

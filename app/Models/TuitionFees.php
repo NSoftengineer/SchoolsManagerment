@@ -43,7 +43,7 @@ class TuitionFees extends Model
     }
     public function yearstudy()
     {
-        return $this->hasOne(yearstudy::class, 'id', 'yearstudy_id');
+        return $this->hasOne(Yearstudy::class, 'id', 'yearstudy_id');
     }
     public function classroom()
     {

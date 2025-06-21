@@ -25,6 +25,7 @@ return new class extends Migration
             $table->integer('district');
             $table->integer('village');
             $table->integer('active');
+            $table->text('img')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

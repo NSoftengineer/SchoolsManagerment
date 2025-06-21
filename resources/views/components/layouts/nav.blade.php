@@ -14,9 +14,11 @@
                     </svg>
                 </button>
                 <a href="/" class="flex ms-2 md:me-24">
-                    <img src="{{ asset('assets/logo.jpg') }}" class="h-8 me-3" alt="FlowBite Logo" />
-                    <span
-                        class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Liewkong school</span>
+                    <img src="{{ asset('assets/logo_1.jpg') }}" class="h-8 me-3" alt="FlowBite Logo" />
+                    <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
+                        ໂຮງຮຽນລາວຈີນລຽວກົງ 寮龚华文学校
+                        {{-- Liewkong school --}}
+                    </span>
                 </a>
             </div>
             <div class="flex items-center">
@@ -26,18 +28,17 @@
                             class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
                             aria-expanded="false" data-dropdown-toggle="dropdown-user">
                             <span class="sr-only">Open user menu</span>
-                            <img class="w-8 h-8 rounded-full"
-                                src="{{ asset('assets/logo.jpg') }}" alt="user photo">
+                            <img class="w-8 h-8 rounded-full" src="{{ asset('assets/logo_1.jpg') }}" alt="user photo">
                         </button>
                     </div>
                     <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-sm shadow-sm dark:bg-gray-700 dark:divide-gray-600"
                         id="dropdown-user">
                         <div class="px-4 py-3" role="none">
                             <p class="text-sm text-gray-900 dark:text-white" role="none">
-                                {{Auth::user()->name}}
+                                {{ Auth::user()->name }}
                             </p>
                             <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                                {{Auth::user()->email}}
+                                {{ Auth::user()->email }}
                             </p>
                         </div>
                         <ul class="py-1" role="none">

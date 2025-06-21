@@ -17,4 +17,15 @@ class Classroom extends Model
     {
         return $this->hasOne(Floorstudy::class, 'id', 'floorstudies_id');
     }
+
+    public function countstudent()
+    {
+        return $this->hasMany(StudentClass::class, 'classrooms_id', 'id')->where('status', '1');
+    }
+
+    protected $appends = ['student_count'];
+    public function getStudentCountAttribute()
+    {
+        return $this->countstudent()->count();
+    }
 }

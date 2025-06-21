@@ -15,7 +15,10 @@ class TypeExpenses extends Component
     public function render()
     {
         $this->TypeexpensesData = TypeexpensesModel::all();
-        return view('livewire.setting.type-expenses');
+        $type_expenses = TypeexpensesModel::all();
+        return view('livewire.setting.type-expenses')->layout('components.layouts.app', [
+            'type_expenses' => $type_expenses
+        ]);
     }
     public function onModalShow($id = false)
     {

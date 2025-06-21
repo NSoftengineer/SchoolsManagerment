@@ -1,7 +1,7 @@
 <div>
     <div class="md:w-[450px] w-[320px] max-w-md bg-white p-8 rounded-lg shadow-lg">
         <center>
-            <img src="{{ asset('assets/logo.jpg') }}" class="w-[200px] h-[200px]" alt="logo">
+            <img src="{{ asset('assets/logo_1.jpg') }}" class="w-[200px] h-[200px]" alt="logo">
         </center>
         <h2 class="text-2xl font-semibold text-center mb-6 phetsarath-bold">
             ຍີນດີຕ້ອນຮັບເຂົ້າສູ່ການນຳໃຊ້ລະບົບຈັດການໂຮງຮຽນ

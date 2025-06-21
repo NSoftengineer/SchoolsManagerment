@@ -2,7 +2,7 @@
     @if ($students_list > 0)
         @include('livewire.income.Components.overdue-student-list')
     @else
-        @for ($i = 0; $i < 10; $i++)
+        @foreach ($classroomData as $key => $value)
             <div
                 class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
                 <div class="flex justify-end px-4 pt-4">
@@ -11,10 +11,13 @@
                 <div class="flex flex-col items-center pb-10">
                     <img class="w-24 h-24 mb-3 rounded-full shadow-lg" src="{{ asset('assets/logo.jpg') }}"
                         alt="Bonnie image" />
-                    <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">ຫ່ອງ ປ 5/2</h5>
-                    <span class="text-sm text-gray-500 dark:text-gray-400">28/30</span>
+                    <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">
+                        {{ $value->name }}
+                    </h5>
+                    <span class="text-sm text-gray-500 dark:text-gray-400">
+                        {{ $value->student_count }}/30</span>
                     <div class="flex mt-4 md:mt-6">
-                        <button wire:click="onClickTable"
+                        <button wire:click="onClickTable('1','{{ $value->id }}')"
                             class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                             ເບີງຂໍ້ມູນ
                             <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true"
@@ -34,7 +37,7 @@
                     </div>
                 </div>
             </div>
-        @endfor
+        @endforeach
     @endif
 
 

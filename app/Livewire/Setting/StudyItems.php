@@ -4,6 +4,7 @@ namespace App\Livewire\Setting;
 
 use App\Models\Groupitem;
 use App\Models\Itemforregister;
+use App\Models\Typeexpenses;
 use Livewire\Component;
 
 class StudyItems extends Component
@@ -37,8 +38,10 @@ class StudyItems extends Component
     {
         $this->groupItemData = Groupitem::all();
         $this->itemData = Groupitem::with(['items'])->get();
-
-        return view('livewire.setting.study-items');
+        $type_expenses = Typeexpenses::all();
+        return view('livewire.setting.study-items')->layout('components.layouts.app', [
+            'type_expenses' => $type_expenses
+        ]);
     }
     public function onModalShow()
     {

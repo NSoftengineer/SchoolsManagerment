@@ -2,8 +2,10 @@
 
 namespace App\Livewire\Setting;
 
+use App\Models\Typeexpenses;
+use App\Models\Typeteacher as ModelsTypeteacher;
 use Livewire\Component;
-use App\Models\TypeTeacher as ModelTypeTeacher; // Ensure you have the correct model imported
+
 
 class TypeTeacher extends Component
 {
@@ -14,14 +16,17 @@ class TypeTeacher extends Component
 
     public function render()
     {
-        $this->TypeTeacher = ModelTypeTeacher::all();
-        return view('livewire.setting.type-teacher');
+        $this->TypeTeacher = ModelsTypeteacher::all();
+        $type_expenses = Typeexpenses::all();
+        return view('livewire.setting.type-teacher')->layout('components.layouts.app', [
+            'type_expenses' => $type_expenses
+        ]);
     }
     public function onModalShow($id = false)
     {
         if ($id) {
             $this->isId = $id;
-            $typeTeacher = ModelTypeTeacher::find($id);
+            $typeTeacher = ModelsTypeteacher::find($id);
             if ($typeTeacher) {
                 $this->name = $typeTeacher->name;
             } else {
@@ -44,7 +49,7 @@ class TypeTeacher extends Component
         ]);
 
         if ($this->isId) {
-            $typeTeacher = ModelTypeTeacher::find($this->isId);
+            $typeTeacher = ModelsTypeteacher::find($this->isId);
             $typeTeacher->name = $this->name;
             $teacher = $typeTeacher->update();
             if ($teacher) {
@@ -53,7 +58,7 @@ class TypeTeacher extends Component
                 $this->js('alertError()');
             }
         } else {
-            $teacher =  ModelTypeTeacher::create(['name' => $this->name]);
+            $teacher =  ModelsTypeteacher::create(['name' => $this->name]);
             $this->reset(['name', 'isId']);
             if ($teacher) {
                 $this->js('alertSuccess()');
@@ -65,7 +70,7 @@ class TypeTeacher extends Component
 
     public function Teacherdelete()
     {
-        $typeTeacher = ModelTypeTeacher::find($this->isId);
+        $typeTeacher = ModelsTypeteacher::find($this->isId);
         if ($typeTeacher) {
             $typeTeacher->delete();
             $this->js('alertSuccess()');

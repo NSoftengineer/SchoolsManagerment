@@ -7,12 +7,16 @@ use App\Models\District;
 use App\Models\Province;
 use App\Models\Student as ModelsStudent;
 use App\Models\StudentClass;
+use App\Models\Typeexpenses;
 use App\Models\Village;
 use App\Models\Yearstudy;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Student extends Component
 {
+    use WithFileUploads;
+
     protected $listeners = ['studentDelete' => 'deleteStudent'];
     public $araryEthnic = [
         'ລາວ',
@@ -96,6 +100,9 @@ class Student extends Component
     public $f_occupation;
     public $class_id;
     public $yearstudy_id;
+    public $address;
+    public $photo;
+    public $show_photo;
     public function render()
     {
 
@@ -111,7 +118,10 @@ class Student extends Component
         $this->yearstudy = Yearstudy::orderBy('id', 'desc')->get();
 
         $this->studentData = ModelsStudent::with(['studentclass', 'province', 'district', 'village'])->get();
-        return view('livewire.personal-profile.student');
+        $type_expenses = Typeexpenses::all();
+        return view('livewire.personal-profile.student')->layout('components.layouts.app', [
+            'type_expenses' => $type_expenses
+        ]);
     }
     public function getDistrict($provinceId)
     {
@@ -145,16 +155,39 @@ class Student extends Component
             'f_occupation'  => ['required', 'string'],
             'class_id'      => ['required', 'integer'],
             'yearstudy_id'  => ['required', 'integer'],
+            'address'       => ['nullable', 'string'],
         ]);
         if ($this->isIdStudent) {
             $ModelsStudent = ModelsStudent::find($this->isIdStudent);
             if ($ModelsStudent) {
-                $ModelsStudent->update($validate);
-                $StudentClass = StudentClass::find($this->isIdStudent);
-                if ($StudentClass) {
+                $data_photo = [];
+
+                if ($this->photo != "") {
+                    $name = $ModelsStudent->id . '_' . uniqid() . '_' . $this->photo->hashName();
+                    $uploaded = $this->photo->storeAs('/students', $name, 'local_public');
+                    $data_photo['img'] = $uploaded;
+                }
+
+                $ModelsStudent->update(array_merge($validate, $data_photo));
+
+                // $StudentClass = StudentClass::find($this->isIdStudent);
+                $StudentClass = StudentClass::where('student_id', $this->isIdStudent)
+                    ->where('yearstudies_id', $this->yearstudy_id)
+                    ->where('status', '1')
+                    ->where('classrooms_id', $this->class_id)
+                    ->first();
+                if ($StudentClass != null) {
                     $StudentClass->update([
                         "yearstudies_id" => $this->yearstudy_id,
                         "classrooms_id" => $this->class_id,
+                    ]);
+                } else {
+                    $UpdateStudentClass = StudentClass::where('student_id', $this->isIdStudent)->update(["status" => "2"]);
+                    StudentClass::create([
+                        "student_id" => $this->isIdStudent,
+                        "yearstudies_id" => $this->yearstudy_id,
+                        "classrooms_id" => $this->class_id,
+                        "status" => "1",
                     ]);
                 }
                 $this->js('alertUpSuccess()');
@@ -171,6 +204,15 @@ class Student extends Component
                     "classrooms_id" => $this->class_id,
                     "status" => "1",
                 ]);
+
+                if ($this->photo != "") {
+                    // $name = $ModelsStudent->id . '_' . uniqid() . '_' . $this->photo->getClientOriginalName();
+                    $name = $ModelsStudent->id . '_' . uniqid() . '_' . $this->photo->hashName();
+                    $uploaded = $this->photo->storeAs('/students', $name, 'local_public');
+                    ModelsStudent::find($ModelsStudent->id)->update(['img' => $uploaded]);
+                }
+
+
 
                 $this->first_name = "";
                 $this->last_name = "";
@@ -246,6 +288,7 @@ class Student extends Component
             $this->birthday = $student->birthday;
             $this->ethnic = $student->ethnic;
             $this->province_id = $student->province_id;
+            $this->show_photo = $student->img;
             $this->district = District::where('province_id', $student->province_id)->get();
             if ($student->district_id) {
                 $this->village = Village::where('district_id',  $student->district_id)->get();
@@ -267,6 +310,7 @@ class Student extends Component
             $this->mother = $student->mother;
             $this->m_phone = $student->m_phone;
             $this->m_occupation = $student->m_occupation;
+
             $this->class_id = $student->studentclass->classrooms_id;
             $this->yearstudy_id = $student->studentclass->yearstudies_id;
         }

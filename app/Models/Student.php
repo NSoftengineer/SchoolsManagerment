@@ -22,11 +22,13 @@ class Student extends Model
         'father',
         'f_phone',
         'f_occupation',
+        'address',
+        'img',
     ];
 
     public function studentclass()
     {
-        return $this->hasOne(StudentClass::class, 'student_id', 'id')->with(['classroom', 'studycost']);
+        return $this->hasOne(StudentClass::class, 'student_id', 'id')->with(['classroom', 'studycost'])->orderBy('id', 'desc');
     }
     public function province()
     {

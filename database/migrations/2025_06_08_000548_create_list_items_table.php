@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('list_items', function (Blueprint $table) {
             $table->id();
             $table->string('userid');
+            $table->string('invoice');
             $table->integer('tuition_id');
             $table->integer('items_id');
             $table->text('items_title');

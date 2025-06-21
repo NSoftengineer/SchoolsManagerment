@@ -26,6 +26,7 @@ use App\Livewire\Setting\TypeExpenses;
 use App\Livewire\Setting\TypeIncome;
 use App\Livewire\Setting\TypeTeacher;
 use App\Livewire\Users\Users;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -38,7 +39,19 @@ use Illuminate\Support\Facades\Route;
 
 // Route::post('/login', [AuthController::class, 'login']);
 
+Route::get('/clear', function () {
+    // Artisan::call('migrate');
+    Artisan::call('cache:clear');
+    Artisan::call('route:cache');
+    Artisan::call('config:clear');
+    dd('clear cache,route,config!');
+});
 
+
+Route::get('/migrate', function () {
+    Artisan::call('migrate');
+    return 'Application migrate has been cleared';
+});
 
 Route::middleware([Authentications::class])->group(function () {
 

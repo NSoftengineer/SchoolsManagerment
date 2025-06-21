@@ -21,5 +21,6 @@ class Employee extends Model
         'district',
         'village',
         'active',
+        'img',
     ];
 }

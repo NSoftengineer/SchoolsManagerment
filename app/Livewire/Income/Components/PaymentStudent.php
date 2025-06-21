@@ -11,6 +11,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
+use function Laravel\Prompts\alert;
+
 class PaymentStudent extends Component
 {
     public $selectClass = [];
@@ -43,6 +45,7 @@ class PaymentStudent extends Component
     public $select_november;
     public $select_december;
     public $arr_month = [];
+    public $searchstuden = "";
     public function render()
     {
         $this->selectClass = Classroom::all();
@@ -171,14 +174,26 @@ class PaymentStudent extends Component
     public function selectdataclass()
     {
         try {
+            // $this->js("alert('{$this->searchstuden}')");
             $this->Itemstudent = [];
-            if ($this->selectedClass != "") {
-                $this->student = Student::with(['studentclass', 'tuitionfees'])->whereHas('studentclass', function ($query) {
-                    $query->where('classrooms_id', $this->selectedClass);
-                })->get();
+            if ($this->selectedClass != "" || $this->searchstuden != "") {
+                //
+                $studentData = Student::with(['studentclass', 'tuitionfees']);
+
+                if ($this->selectedClass != "") {
+                    $studentData->whereHas('studentclass', function ($query) {
+                        $query->Where('classrooms_id', $this->selectedClass)->where('status', 1);;
+                    });
+                }
+
+                if ($this->searchstuden != "") {
+                    $studentData->WhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ['%' . $this->searchstuden . '%']);
+                }
+
+                $this->student = $studentData->get();
             }
         } catch (\Throwable $th) {
-            $this->js("alertErrorStudent('ບໍ່ພົບຂໍ້ມູນໃນຫ້ອງນີ້')");
+            $this->js("alertErrorStudent('ບໍ່ພົບຂໍ້ມູນໃນຫ້ອງນີ້ {$this->selectedClass}')");
         }
     }
     public function selectStuden($idStudent, $classroom_id, $yearstudies_id, $floorstudy_id)

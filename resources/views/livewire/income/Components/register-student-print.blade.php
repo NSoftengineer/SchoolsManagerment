@@ -1,5 +1,5 @@
 <div>
-    <center class="pt-5">
+    <center class="pt-0">
         <div id="print" style="width: 210mm;height: 297mm;border: 1px solid #f1f1f1;background: #FFFFFF">
             <div class="flex ...">
                 <div class="w-1/4 ...">
@@ -129,7 +129,7 @@
                                         ລວມຈ່າຍເປັນເງິນທັງໝົດ
                                     </td>
                                     <th class="px-6 py-1 border border-gray-900 text-end">
-                                        {{ number_format($infomation->return_amount) }}
+                                        {{ number_format($infomation->receive_amount) }}
                                     </th>
                                 </tr>
                                 <tr class="bg-white">
@@ -168,13 +168,13 @@
     </center>
 
     <script>
-        // var printContents = document.getElementById('print').innerHTML;
-        // var originalContents = document.body.innerHTML;
+        var printContents = document.getElementById('print').innerHTML;
+        var originalContents = document.body.innerHTML;
 
-        // document.body.innerHTML = printContents;
+        document.body.innerHTML = printContents;
 
-        // window.print();
+        window.print();
 
-        // document.body.innerHTML = originalContents;
+        document.body.innerHTML = originalContents;
     </script>
 </div>

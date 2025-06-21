@@ -10,5 +10,7 @@ class Yearstudy extends Model
     use SoftDeletes;
     protected $fillable = [
         'name',
+        'year_start',
+        'year_end',
     ];
 }

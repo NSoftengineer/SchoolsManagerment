@@ -21,6 +21,6 @@ class RegisterStudentPrint extends Component
         // $this->items = $this->infomation->tuitionfees->items()->where('payment_of', $this->infomation->tuitionfees->payment_of)->get();
         $this->items = $this->infomation->tuitionfees->items()->where('invoice', $this->invoice)->get();
 
-        return view('livewire.income.components.register-student-print')->layout('components.layouts.print');
+        return view('livewire.income.Components.register-student-print')->layout('components.layouts.print');
     }
 }
